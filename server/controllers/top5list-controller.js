@@ -106,7 +106,7 @@ getTop5ListPairs = async (req, res) => {
         console.log("find user with id " + req.userId);
         async function asyncFindList(email) {
             console.log("find all Top5Lists owned by " + email);
-            await Top5List.find({ ownerEmail: email }, (err, top5Lists) => {
+            await Top5List.find({ }, (err, top5Lists) => {
                 console.log("found Top5Lists: " + JSON.stringify(top5Lists));
                 if (err) {
                     return res.status(400).json({ success: false, error: err })
@@ -126,7 +126,9 @@ getTop5ListPairs = async (req, res) => {
                         let pair = {
                             _id: list._id,
                             name: list.name,
-                            publisher: list.publisher
+                            ownerEmail: list.ownerEmail,
+                            publisher: list.publisher,
+                            published: list.createdAt
                         };
                         pairs.push(pair);
                     }

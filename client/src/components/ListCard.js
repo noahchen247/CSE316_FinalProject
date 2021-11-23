@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth';
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
@@ -16,24 +16,20 @@ import TextField from '@mui/material/TextField';
 */
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
-    const [editActive, setEditActive] = useState(false);
-    const [text, setText] = useState("");
-    const { idNamePair, selected } = props;
+    const { auth } = useContext(AuthContext);
+    //const [editActive, setEditActive] = useState(false);
+    //const [text, setText] = useState("");
+    const { idNamePair } = props;
 
-    function handleLoadList(event, id) {
-        console.log("handleLoadList for " + id);
-        if (!event.target.disabled) {
-            let _id = event.target.id;
-            if (_id.indexOf('list-card-text-') >= 0)
-                _id = ("" + _id).substring("list-card-text-".length);
+    var months = [ "January", "February", "March", "April", "May", "June", 
+           "July", "August", "September", "October", "November", "December" ];
 
-            console.log("load " + event.target.id);
-
-            // CHANGE THE CURRENT LIST
-            store.setCurrentList(id);
-        }
+    function handleLoadList() {
+        console.log("handleLoadList for " + idNamePair._id);
+        store.setCurrentList(idNamePair._id);
     }
 
+    /*
     function handleToggleEdit(event) {
         event.stopPropagation();
         toggleEdit();
@@ -46,69 +42,47 @@ function ListCard(props) {
         }
         setEditActive(newActive);
     }
+    */
+
+    function formatDate(date) {
+        let split = date.substring(0, date.indexOf("T")).split("-");
+        return months[split[1]] + " " + split[2] + ", " + split[0];
+    }
 
     async function handleDeleteList(event, id) {
         event.stopPropagation();
-        let _id = event.target.id;
-        _id = ("" + _id).substring("delete-list-".length);
+        //let _id = event.target.id;
+        //_id = ("" + _id).substring("delete-list-".length);
         store.markListForDeletion(id);
     }
 
-    function handleKeyPress(event) {
-        if (event.code === "Enter") {
-            let id = event.target.id.substring("list-".length);
-            store.changeListName(id, text);
-            toggleEdit();
-        }
-    }
-    function handleUpdateText(event) {
-        setText(event.target.value);
+    let editFunction = "";
+    if (idNamePair.ownerEmail === auth.user.email) {
+        editFunction = 
+            <Box onClick={(event) => handleLoadList(event)} sx={{ p: 1, color: 'red' }}>
+                <u>Edit</u>
+            </Box>
     }
 
-    /*
-    let publisher = "";
-    if (idNamePair._id) {
-        store.retrievePublisher(idNamePair._id).then(function(value){
-            console.log(value);
-            publisher = value;
-        });
-    }
-    console.log(publisher);
-
-    store.getAllLists().then(function(lists) {
-        console.log(lists);
-    })
-    */
-
-    let selectClass = "unselected-list-card";
-    if (selected) {
-        selectClass = "selected-list-card";
-    }
-    let cardStatus = false;
-    if (store.isListNameEditActive) {
-        cardStatus = true;
-    }
     let cardElement =
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
-            sx={{ marginTop: '15px', display: 'flex', p: 1 }}
-            style={{ width: '100%' }}
-            button
-            onClick={(event) => {
-                handleLoadList(event, idNamePair._id)
-            }
-            }
-            style={{
-                fontSize: '48pt'
-            }}
+            sx={{ marginTop: '15px', 
+                  display: 'flex', 
+                  p: 1, 
+                  borderStyle: 'solid', 
+                  borderWidth: '.1px',
+                  borderColor: 'black', 
+                  bgcolor: '#d4d4f5', 
+                  borderRadius: '15px' }}
+            style={{ width: '100%', fontSize: '16pt' }}
         >
-                <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
-                <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.publisher}</Box>
-                <Box sx={{ p: 1 }}>
-                    <IconButton onClick={handleToggleEdit} aria-label='edit'>
-                        <EditIcon style={{fontSize:'48pt'}} />
-                    </IconButton>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Box sx={{ p: 1 }} style={{ fontSize: '20pt' }}>{idNamePair.name}</Box>
+                    <Box sx={{ p: 1 }}>By: <u>{idNamePair.publisher}</u></Box>
+                    {editFunction}
+                    <Box sx={{ p: 1 }}>Published: <span style={{ color: 'green' }}>{formatDate(idNamePair.published)}</span></Box>
                 </Box>
                 <Box sx={{ p: 1 }}>
                     <IconButton onClick={(event) => {
@@ -118,26 +92,6 @@ function ListCard(props) {
                     </IconButton>
                 </Box>
         </ListItem>
-
-    if (editActive) {
-        cardElement =
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id={"list-" + idNamePair._id}
-                label="Top 5 List Name"
-                name="name"
-                autoComplete="Top 5 List Name"
-                className='list-card'
-                onKeyPress={handleKeyPress}
-                onChange={handleUpdateText}
-                defaultValue={idNamePair.name}
-                inputProps={{style: {fontSize: 48}}}
-                InputLabelProps={{style: {fontSize: 24}}}
-                autoFocus
-            />
-    }
     return (
         cardElement
     );

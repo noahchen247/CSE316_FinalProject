@@ -4,6 +4,7 @@ import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
 
 import AddIcon from '@mui/icons-material/Add';
+import HomeIcon from '@mui/icons-material/Home'
 import Fab from '@mui/material/Fab'
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
@@ -25,13 +26,12 @@ const HomeScreen = () => {
     let listCard = "";
     if (store) {
         listCard = 
-            <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
+            <List sx={{ width: '90%', left: '5%' }}>
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
                         key={pair._id}
                         idNamePair={pair}
-                        selected={false}
                     />
                 ))
             }
@@ -40,6 +40,14 @@ const HomeScreen = () => {
     return (
         <div id="top5-list-selector">
             <div id="list-selector-heading">
+            <Fab 
+                color="primary" 
+                aria-label="add"
+                id="add-list-button"
+                onClick={handleCreateNewList}
+            >
+                <HomeIcon />
+            </Fab>
             <Fab 
                 color="primary" 
                 aria-label="add"
