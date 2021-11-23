@@ -230,7 +230,7 @@ function GlobalStoreContextProvider(props) {
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
     store.loadIdNamePairs = async function () {
-        console.log("store.loadIdNamePairs");
+        //console.log("store.loadIdNamePairs");
         const response = await api.getTop5ListPairs();
         if (response.status === 200) {
             let pairsArray = response.data.idNamePairs;

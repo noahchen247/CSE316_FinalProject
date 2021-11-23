@@ -27,7 +27,7 @@ export const getLoggedIn = () => api.get(`/loggedIn/`);
 export const loginUser = (email, password) => {
     return api.post(`/login/`, {
         email : email,
-        password : password
+        password : password,
     })
 }
 export const logoutUser = () => api.get(`/logout/`)

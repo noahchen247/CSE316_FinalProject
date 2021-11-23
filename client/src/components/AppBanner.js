@@ -33,6 +33,11 @@ export default function AppBanner() {
         auth.logoutUser();
     }
 
+    const handleGuestClose = () => {
+        handleMenuClose();
+        auth.loginUser("", "", true);
+    }
+
     const menuId = 'primary-search-account-menu';
     const loggedOutMenu = (
         <Menu
@@ -52,6 +57,7 @@ export default function AppBanner() {
         >
             <MenuItem onClick={handleMenuClose}><Link to='/login/'>Login</Link></MenuItem>
             <MenuItem onClick={handleMenuClose}><Link to='/register/'>Create New Account</Link></MenuItem>
+            <MenuItem onClick={handleGuestClose}>Continue As Guest</MenuItem>
         </Menu>
     );
     const loggedInMenu = 
@@ -84,7 +90,7 @@ export default function AppBanner() {
     
     function getAccountMenu(loggedIn) {
         let userInitials = auth.getUserInitials();
-        console.log("userInitials: " + userInitials);
+        //console.log("userInitials: " + userInitials);
         if (loggedIn) 
             return <div>{userInitials}</div>;
         else
