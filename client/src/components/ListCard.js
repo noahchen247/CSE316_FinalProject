@@ -65,6 +65,21 @@ function ListCard(props) {
         setText(event.target.value);
     }
 
+    /*
+    let publisher = "";
+    if (idNamePair._id) {
+        store.retrievePublisher(idNamePair._id).then(function(value){
+            console.log(value);
+            publisher = value;
+        });
+    }
+    console.log(publisher);
+
+    store.getAllLists().then(function(lists) {
+        console.log(lists);
+    })
+    */
+
     let selectClass = "unselected-list-card";
     if (selected) {
         selectClass = "selected-list-card";
@@ -89,6 +104,7 @@ function ListCard(props) {
             }}
         >
                 <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
+                <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.publisher}</Box>
                 <Box sx={{ p: 1 }}>
                     <IconButton onClick={handleToggleEdit} aria-label='edit'>
                         <EditIcon style={{fontSize:'48pt'}} />
