@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
-import TextField from '@mui/material/TextField';
+//import TextField from '@mui/material/TextField';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -19,7 +19,7 @@ function ListCard(props) {
     const { auth } = useContext(AuthContext);
     //const [editActive, setEditActive] = useState(false);
     //const [text, setText] = useState("");
-    const { idNamePair } = props;
+    const { idNamePair, searchState } = props;
 
     var months = [ "January", "February", "March", "April", "May", "June", 
            "July", "August", "September", "October", "November", "December" ];
@@ -57,7 +57,7 @@ function ListCard(props) {
     }
 
     let editFunction = "";
-    if (idNamePair.ownerEmail === auth.user.email) {
+    if (searchState === "Home") {
         editFunction = 
             <Box onClick={(event) => handleLoadList(event)} sx={{ p: 1, color: 'red' }}>
                 <u>Edit</u>
@@ -80,7 +80,7 @@ function ListCard(props) {
         >
                 <Box sx={{ flexGrow: 1 }}>
                     <Box sx={{ p: 1 }} style={{ fontSize: '20pt' }}>{idNamePair.name}</Box>
-                    <Box sx={{ p: 1 }}>By: <u>{idNamePair.publisher}</u></Box>
+                    <Box sx={{ p: 1 }}>By: <span style={{ color: 'blue' }}><u>{idNamePair.publisher}</u></span></Box>
                     {editFunction}
                     <Box sx={{ p: 1 }}>Published: <span style={{ color: 'green' }}>{formatDate(idNamePair.published)}</span></Box>
                 </Box>

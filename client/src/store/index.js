@@ -28,7 +28,8 @@ export const GlobalStoreActionType = {
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
     SET_ITEM_EDIT_ACTIVE: "SET_ITEM_EDIT_ACTIVE",
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
-    GET_ALL_LISTS: "GET_ALL_LISTS"
+    GET_ALL_LISTS: "GET_ALL_LISTS",
+    FILTER_PAIRS: "FILTER_PAIRS"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -179,6 +180,17 @@ function GlobalStoreContextProvider(props) {
                     top5Lists: payload.top5Lists
                 })
             }
+            case GlobalStoreActionType.FILTER_PAIRS: {
+                return setStore({
+                    idNamePairs: payload,
+                    currentList: store.currentList,
+                    newListCounter: store.newListCounter,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null,
+                    top5Lists: store.top5Lists
+                })
+            }
             default:
                 return store;
         }
@@ -265,6 +277,26 @@ function GlobalStoreContextProvider(props) {
             console.log("API FAILED TO GET THE LIST PAIRS");
         }
     }
+
+    //filters pairs based off the lists that should appear in your home menu initially (all lists udnder your email)
+    store.getHomeLists = async function () {
+        const response = await api.getTop5ListPairs();
+        if (response.status === 200) {
+            let pairs = response.data.idNamePairs;
+            for (const [index, pair] of pairs.entries()) {
+                if (pair.ownerEmail !== auth.user.email) {
+                    pairs.splice(index, 1);
+                }
+            }
+            console.log(pairs);
+            storeReducer({
+                type: GlobalStoreActionType.FILTER_PAIRS,
+                payload: pairs
+            });
+        }
+    }
+
+    //filters pairs based off lists that should be in users lists initially (all lists that are published)
 
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION
     // OF A LIST, WHICH INCLUDES USING A VERIFICATION MODAL. THE

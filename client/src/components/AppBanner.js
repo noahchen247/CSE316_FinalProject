@@ -91,7 +91,7 @@ export default function AppBanner() {
         let userInitials = auth.getUserInitials();
         //console.log("userInitials: " + userInitials);
         if (loggedIn) 
-            return <div>{userInitials}</div>;
+            return <div style={{color: 'black'}}>{userInitials}</div>;
         else
             return <AccountCircle />;
     }
@@ -118,6 +118,7 @@ export default function AppBanner() {
                             aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
                             color="inherit"
+                            style={{ borderStyle: 'solid', borderWidth: '.1px', borderColor: 'black' }}
                         >
                             { getAccountMenu(auth.loggedIn) }
                         </IconButton>
