@@ -171,13 +171,13 @@ function GlobalStoreContextProvider(props) {
             }
             case GlobalStoreActionType.GET_ALL_LISTS: {
                 return setStore({
-                    idNamePairs: store.idNamePairs,
+                    idNamePairs: payload,
                     currentList: store.currentList,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null,
-                    top5Lists: payload.top5Lists
+                    top5Lists: payload
                 })
             }
             case GlobalStoreActionType.FILTER_PAIRS: {
@@ -289,6 +289,19 @@ function GlobalStoreContextProvider(props) {
                 }
             }
             console.log(pairs);
+            storeReducer({
+                type: GlobalStoreActionType.FILTER_PAIRS,
+                payload: pairs
+            });
+        }
+    }
+
+    //OKAY THIS IS THE NEW METHOD THAT GETS LISTS MY EMAIL
+    store.homeTest = async function () {
+        const response = await api.getTop5ListsByEmail(auth.user.email);
+        if (response.status === 200) {
+            let pairs = response.data.top5Lists;
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAAA" + pairs);
             storeReducer({
                 type: GlobalStoreActionType.FILTER_PAIRS,
                 payload: pairs
@@ -436,7 +449,8 @@ function GlobalStoreContextProvider(props) {
     store.getAllLists = async function () {
         const response = await api.getTop5Lists();
         if (response.status === 200) {
-            let top5Lists = response.data.data;
+            let top5Lists = response.data.top5Lists;
+            console.log(top5Lists);
             storeReducer({
                 type: GlobalStoreActionType.GET_ALL_LISTS,
                 payload: top5Lists

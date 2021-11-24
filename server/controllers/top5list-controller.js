@@ -139,6 +139,44 @@ getTop5ListPairs = async (req, res) => {
         asyncFindList(user.email);
     }).catch(err => console.log(err))
 }
+getTop5ListsByEmail = async (req, res) => {
+    await User.findOne({ _id: req.userId }, (err, user) => {
+        console.log("find user with id " + req.userId);
+        async function asyncFindList(email) {
+            console.log("find all Top5Lists owned by " + email);
+            await Top5List.find({ ownerEmail: email }, (err, top5Lists) => {
+                console.log("found Top5Lists: " + JSON.stringify(top5Lists));
+                if (err) {
+                    return res.status(400).json({ success: false, error: err })
+                }
+                if (!top5Lists) {
+                    console.log("!top5Lists.length");
+                    return res
+                        .status(404)
+                        .json({ success: false, error: 'Top 5 Lists not found' })
+                }
+                else {
+                    console.log("Send the Top5List pairs");
+                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
+                    let ownedLists = [];
+                    for (let key in top5Lists) {
+                        let list = top5Lists[key];
+                        let info = {
+                            _id: list._id,
+                            name: list.name,
+                            ownerEmail: list.ownerEmail,
+                            publisher: list.publisher,
+                            published: list.createdAt
+                        };
+                        ownedLists.push(info);
+                    }
+                    return res.status(200).json({ success: true, top5Lists: ownedLists })
+                }
+            }).catch(err => console.log(err))
+        }
+        asyncFindList(req.params.email);
+    }).catch(err => console.log(err))
+}
 getTop5Lists = async (req, res) => {
     await Top5List.find({}, (err, top5Lists) => {
         if (err) {
@@ -149,7 +187,20 @@ getTop5Lists = async (req, res) => {
                 .status(404)
                 .json({ success: false, error: `Top 5 Lists not found` })
         }
-        return res.status(200).json({ success: true, data: top5Lists })
+        //console.log(top5Lists.length);
+        let ownedLists = [];
+        for (let key in top5Lists) {
+            let list = top5Lists[key];
+            let info = {
+                _id: list._id,
+                name: list.name,
+                ownerEmail: list.ownerEmail,
+                publisher: list.publisher,
+                published: list.createdAt
+            };
+            ownedLists.push(info);
+        }
+        return res.status(200).json({ success: true, top5Lists: ownedLists })
     }).catch(err => console.log(err))
 }
 updateTop5List = async (req, res) => {
@@ -218,5 +269,6 @@ module.exports = {
     getTop5ListById,
     getTop5ListPairs,
     getTop5Lists,
-    updateTop5List
+    updateTop5List,
+    getTop5ListsByEmail
 }

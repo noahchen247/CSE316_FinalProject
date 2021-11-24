@@ -21,9 +21,9 @@ const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [searchState, setSearchState] = useState("Home");
 
+    //INITIAL LOAD ALL LISTS ASSOCIATED WITH USER
     useEffect(() => {
-        store.loadIdNamePairs();
-        store.getHomeLists();
+        store.homeTest();
     }, []);
 
     function handleCreateNewList() {
@@ -31,12 +31,12 @@ const HomeScreen = () => {
     }
     function handleHomePairs() {
         setSearchState("Home");
-        store.getHomeLists();
+        store.homeTest();
     }
     function handleUserPairs() {
         //console.log(document.getElementById("search-bar").value);
         setSearchState("Users");
-        store.loadIdNamePairs();
+        store.getAllLists();
     }
     let listCard = "";
     if (store) {

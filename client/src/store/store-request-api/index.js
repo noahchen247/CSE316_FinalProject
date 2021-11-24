@@ -42,13 +42,16 @@ export const updateTop5ListById = (id, top5List) => {
 }
 export const getTop5Lists = () => api.get(`/top5lists/`)
 
+export const getTop5ListsByEmail = (email) => api.get(`/top5lists/${email}`)
+
 const apis = {
     createTop5List,
     deleteTop5ListById,
     getTop5ListById,
     getTop5ListPairs,
     updateTop5ListById,
-    getTop5Lists
+    getTop5Lists,
+    getTop5ListsByEmail
 }
 
 export default apis
