@@ -487,9 +487,13 @@ function GlobalStoreContextProvider(props) {
         store.updateCurrentList();
     }
 
+    //UPDATES ITEM WITHOUT SAVING IT CHANGED
     store.updateItem = function (index, newItem) {
         store.currentList.items[index] = newItem;
-        store.updateCurrentList();
+        storeReducer({
+            type: GlobalStoreActionType.SET_CURRENT_LIST,
+            payload: store.currentList
+        });
     }
 
     store.updateCurrentList = async function () {
@@ -499,6 +503,14 @@ function GlobalStoreContextProvider(props) {
                 type: GlobalStoreActionType.SET_CURRENT_LIST,
                 payload: store.currentList
             });
+        }
+    }
+
+    //NOT USED RN CHECK BACK LATER
+    store.saveCurrentList = async function () {
+        const response = await api.updateTop5ListById(store.currentList._id, store.currentList);
+        if (response.status === 200) {
+            store.closeCurrentList();
         }
     }
 

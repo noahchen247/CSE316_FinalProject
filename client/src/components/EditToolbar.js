@@ -1,9 +1,6 @@
-import { useContext } from 'react'
+import { useState, useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import Button from '@mui/material/Button';
-import CloseIcon from '@mui/icons-material/HighlightOff';
-import RedoIcon from '@mui/icons-material/Redo';
-import UndoIcon from '@mui/icons-material/Undo';
 
 /*
     This toolbar is a functional React component that
@@ -13,47 +10,46 @@ import UndoIcon from '@mui/icons-material/Undo';
 */
 function EditToolbar() {
     const { store } = useContext(GlobalStoreContext);
+    const [ publishState, setPublishState ] = useState(true);
 
-    let enabledButtonClass = "top5-button";
-    function handleUndo() {
-        store.undo();
+    //let enabledButtonClass = "top5-button";
+    function checkPublishState() {
+        let checkList = store.currentList.items;
+        if (checkList.filter(item => item === "").length > 0) {
+            console.log("a");
+            return false;
+        }
+        let checkSet = new Set(checkList);
+        if (checkList.length !== checkSet.size) {
+            console.log("b");
+            return false;
+        }
+        console.log("c");
+        return true;
     }
-    function handleRedo() {
-        store.redo();
-    }
-    function handleClose() {
-        store.closeCurrentList();
-    }
-    function handleUser() {
-
+    function handleSave() {
+        store.updateCurrentList();
+        setPublishState(!checkPublishState());
     }
     let editStatus = false;
     if (store.isListNameEditActive) {
         editStatus = true;
     }
-    console.log("canUndo: " + store.canUndo());   
     return (
         <div id="edit-toolbar">
             <Button 
-                disabled={!store.canUndo()}
-                id='undo-button'
-                onClick={handleUndo}
-                variant="contained">
-                    <UndoIcon />
-            </Button>
-            <Button 
-                disabled={!store.canRedo()}
-                id='redo-button'
-                onClick={handleRedo}
-                variant="contained">
-                    <RedoIcon />
-            </Button>
-            <Button 
                 disabled={editStatus}
                 id='close-button'
-                onClick={handleClose}
+                onClick={handleSave}
                 variant="contained">
-                    <CloseIcon />
+                    Save
+            </Button>
+            <Button 
+                disabled={publishState}
+                id='close-button'
+                onClick={checkPublishState}
+                variant="contained">
+                    Publish
             </Button>
         </div>
     )
