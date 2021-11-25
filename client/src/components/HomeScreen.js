@@ -57,7 +57,7 @@ const HomeScreen = () => {
         }
         else if (searchState === "Users") {
             //FILL THIS IN AND PROBABLY REPLACE WITH SWITCH???
-            //store.searchUsersListsByUser(criteria);
+            store.searchUsersListsByUser(criteria);
         }
     }
     let listCard = "";

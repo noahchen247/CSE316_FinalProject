@@ -303,7 +303,7 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    //filters pairs based off the lists that should appear in your home menu initially (all lists udnder your email)
+    /*
     store.getHomeLists = async function () {
         const response = await api.getTop5ListPairs();
         if (response.status === 200) {
@@ -320,6 +320,7 @@ function GlobalStoreContextProvider(props) {
             });
         }
     }
+    */
 
     //OKAY THIS IS THE NEW METHOD THAT GETS LISTS MY EMAIL
     store.homeTest = async function () {
@@ -365,6 +366,20 @@ function GlobalStoreContextProvider(props) {
             storeReducer({
                 type: GlobalStoreActionType.GET_ALL_LISTS,
                 payload: top5Lists
+            });
+        }
+    }
+
+    store.searchUsersListsByUser = async function (criteria) {
+        const response = await api.getTop5Lists();
+        if (response.status === 200) {
+            let pairs = response.data.top5Lists;
+            if (criteria !== "") {
+                pairs = pairs.filter(pair => pair.publisher === criteria);
+            }
+            storeReducer({
+                type: GlobalStoreActionType.SEARCH_PAIRS,
+                payload: pairs
             });
         }
     }
