@@ -4,14 +4,13 @@ import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
 
-import AddIcon from '@mui/icons-material/Add';
 import HomeIcon from '@mui/icons-material/Home'
 import GroupsIcon from '@mui/icons-material/Groups'
 import PersonIcon from '@mui/icons-material/Person'
 import FunctionsIcon from '@mui/icons-material/Functions'
 import Fab from '@mui/material/Fab'
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography'
+//import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField';
 /*
     This React component lists all the top5 lists in the UI.
@@ -28,9 +27,6 @@ const HomeScreen = () => {
     }, []);
     */
 
-    function handleCreateNewList() {
-        store.createNewList();
-    }
     function handleHomePairs() {
         setSearchState("Home");
         store.homeTest();
@@ -107,15 +103,6 @@ const HomeScreen = () => {
                 <FunctionsIcon />
             </Fab>
             <TextField id='search-bar' placeholder="Search" type="search" onKeyDown={(e) => {if (e.key === "Enter") { search(); }}} />
-            <Fab 
-                color="primary" 
-                aria-label="add"
-                id="add-list-button"
-                onClick={handleCreateNewList}
-            >
-                <AddIcon />
-            </Fab>
-                <Typography variant="h2">Your Lists</Typography>
             </div>
             <div id="list-selector-list">
                 {
