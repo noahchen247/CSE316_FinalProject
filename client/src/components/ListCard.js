@@ -1,6 +1,7 @@
-import { useContext, useState } from 'react'
+//import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
-import AuthContext from '../auth';
+//import AuthContext from '../auth';
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
@@ -16,7 +17,7 @@ import ListItem from '@mui/material/ListItem';
 */
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
-    const { auth } = useContext(AuthContext);
+    //const { auth } = useContext(AuthContext);
     //const [editActive, setEditActive] = useState(false);
     //const [text, setText] = useState("");
     const { idNamePair, searchState } = props;

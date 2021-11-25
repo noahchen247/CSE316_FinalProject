@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+//import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
@@ -21,10 +22,11 @@ const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [searchState, setSearchState] = useState("Home");
 
-    //INITIAL LOAD ALL LISTS ASSOCIATED WITH USER
+    /*
     useEffect(() => {
-        store.homeTest();
+        //store.homeTest();
     }, []);
+    */
 
     function handleCreateNewList() {
         store.createNewList();
@@ -33,10 +35,30 @@ const HomeScreen = () => {
         setSearchState("Home");
         store.homeTest();
     }
+    function handleAllListsPairs() {
+        setSearchState("All Lists");
+        store.getAllLists();
+    }
     function handleUserPairs() {
         //console.log(document.getElementById("search-bar").value);
         setSearchState("Users");
-        store.getAllLists();
+        store.getUsersLists();
+    }
+    //NEED SOMETHING FOR COMMUNITY LISTS IDK
+    function search() {
+        let criteria = document.getElementById("search-bar").value;
+        console.log(searchState + ": " + criteria);
+        if (searchState === "Home") {
+            store.searchHomePairsByName(criteria);
+            //console.log(store.idNamePairs);
+        }
+        else if (searchState === "All Lists") {
+            store.searchAllListsByName(criteria);
+        }
+        else if (searchState === "Users") {
+            //FILL THIS IN AND PROBABLY REPLACE WITH SWITCH???
+            //store.searchUsersListsByUser(criteria);
+        }
     }
     let listCard = "";
     if (store) {
@@ -66,7 +88,7 @@ const HomeScreen = () => {
             <Fab 
                 color="primary" 
                 aria-label="add"
-                onClick={handleHomePairs}
+                onClick={handleAllListsPairs}
             >
                 <GroupsIcon />
             </Fab>
@@ -84,7 +106,7 @@ const HomeScreen = () => {
             >
                 <FunctionsIcon />
             </Fab>
-            <TextField id='search-bar' placeholder="Search" type="search" />
+            <TextField id='search-bar' placeholder="Search" type="search" onKeyDown={(e) => {if (e.key === "Enter") { search(); }}} />
             <Fab 
                 color="primary" 
                 aria-label="add"

@@ -29,7 +29,9 @@ export const GlobalStoreActionType = {
     SET_ITEM_EDIT_ACTIVE: "SET_ITEM_EDIT_ACTIVE",
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
     GET_ALL_LISTS: "GET_ALL_LISTS",
-    FILTER_PAIRS: "FILTER_PAIRS"
+    FILTER_PAIRS: "FILTER_PAIRS",
+    CLEAN_PAIRS: "CLEAN_PAIRS",
+    SEARCH_PAIRS: "SEARCH_PAIRS"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -191,6 +193,29 @@ function GlobalStoreContextProvider(props) {
                     top5Lists: store.top5Lists
                 })
             }
+            case GlobalStoreActionType.CLEAN_PAIRS: {
+                return setStore({
+                    idNamePairs: [],
+                    currentList: store.currentList,
+                    newListCounter: store.newListCounter,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null,
+                    top5Lists: store.top5Lists
+                })
+            }
+            case GlobalStoreActionType.SEARCH_PAIRS: {
+                console.log("PAYLOAD: " + payload);
+                return setStore({
+                    idNamePairs: payload,
+                    currentList: store.currentList,
+                    newListCounter: store.newListCounter,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null,
+                    top5Lists: store.top5Lists
+                })
+            }
             default:
                 return store;
         }
@@ -301,7 +326,7 @@ function GlobalStoreContextProvider(props) {
         const response = await api.getTop5ListsByEmail(auth.user.email);
         if (response.status === 200) {
             let pairs = response.data.top5Lists;
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAAA" + pairs);
+            console.log("homeTest result: " + pairs);
             storeReducer({
                 type: GlobalStoreActionType.FILTER_PAIRS,
                 payload: pairs
@@ -309,7 +334,55 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    //filters pairs based off lists that should be in users lists initially (all lists that are published)
+    //initial set for users list to null (all lists that are published)
+    store.getUsersLists = async function () {
+        storeReducer({
+            type: GlobalStoreActionType.CLEAN_PAIRS,
+            payload: []
+        })
+    }
+
+    store.searchHomePairsByName = async function (criteria) {
+        const response = await api.getTop5ListsByEmail(auth.user.email);
+        if (response.status === 200) {
+            let pairs = response.data.top5Lists;
+            if (criteria !== "") {
+                pairs = pairs.filter(pair => pair.name === criteria);
+            }
+            //console.log(filteredLists);
+            storeReducer({
+                type: GlobalStoreActionType.SEARCH_PAIRS,
+                payload: pairs
+            })
+        }
+    }
+
+    store.getAllLists = async function () {
+        const response = await api.getTop5Lists();
+        if (response.status === 200) {
+            let top5Lists = response.data.top5Lists;
+            console.log(top5Lists);
+            storeReducer({
+                type: GlobalStoreActionType.GET_ALL_LISTS,
+                payload: top5Lists
+            });
+        }
+    }
+
+    store.searchAllListsByName = async function (criteria) {
+        const response = await api.getTop5Lists();
+        if (response.status === 200) {
+            let pairs = response.data.top5Lists;
+            if (criteria !== "") {
+                pairs = pairs.filter(pair => pair.name === criteria);
+            }
+            //console.log(filteredLists);
+            storeReducer({
+                type: GlobalStoreActionType.SEARCH_PAIRS,
+                payload: pairs
+            })
+        }
+    }
 
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION
     // OF A LIST, WHICH INCLUDES USING A VERIFICATION MODAL. THE
@@ -444,18 +517,6 @@ function GlobalStoreContextProvider(props) {
             type: GlobalStoreActionType.SET_ITEM_EDIT_ACTIVE,
             payload: null
         });
-    }
-
-    store.getAllLists = async function () {
-        const response = await api.getTop5Lists();
-        if (response.status === 200) {
-            let top5Lists = response.data.top5Lists;
-            console.log(top5Lists);
-            storeReducer({
-                type: GlobalStoreActionType.GET_ALL_LISTS,
-                payload: top5Lists
-            });
-        }
     }
 
     return (
