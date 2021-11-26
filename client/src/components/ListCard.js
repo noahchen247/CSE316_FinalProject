@@ -1,6 +1,5 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
-//import AuthContext from '../auth';
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
@@ -19,11 +18,7 @@ import Typography from '@mui/material/Typography';
 */
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
-    //const { auth } = useContext(AuthContext);
-    //const [editActive, setEditActive] = useState(false);
-    //const [text, setText] = useState("");
     const { idNamePair, searchState } = props;
-    const [listActive, setListActive] = useState(false);
 
     var months = [ "January", "February", "March", "April", "May", "June", 
            "July", "August", "September", "October", "November", "December" ];
@@ -33,21 +28,6 @@ function ListCard(props) {
         store.setCurrentList(idNamePair._id);
     }
 
-    /*
-    function handleToggleEdit(event) {
-        event.stopPropagation();
-        toggleEdit();
-    }
-
-    function toggleEdit() {
-        let newActive = !editActive;
-        if (newActive) {
-            store.setIsListNameEditActive();
-        }
-        setEditActive(newActive);
-    }
-    */
-
     function formatDate(date) {
         let split = date.substring(0, date.indexOf("T")).split("-");
         return months[split[1]] + " " + split[2] + ", " + split[0];
@@ -55,8 +35,6 @@ function ListCard(props) {
 
     async function handleDeleteList(event, id) {
         event.stopPropagation();
-        //let _id = event.target.id;
-        //_id = ("" + _id).substring("delete-list-".length);
         store.markListForDeletion(id);
     }
 
