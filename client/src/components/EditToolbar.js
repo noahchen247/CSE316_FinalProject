@@ -16,15 +16,15 @@ function EditToolbar() {
     function checkPublishState() {
         let checkList = store.currentList.items;
         if (checkList.filter(item => item === "").length > 0) {
-            console.log("a");
+            //console.log("a");
             return false;
         }
         let checkSet = new Set(checkList);
         if (checkList.length !== checkSet.size) {
-            console.log("b");
+            //console.log("b");
             return false;
         }
-        console.log("c");
+        //console.log("c");
         return true;
     }
     function handleSave() {
