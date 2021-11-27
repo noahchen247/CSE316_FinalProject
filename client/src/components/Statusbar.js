@@ -19,7 +19,7 @@ function Statusbar() {
     if (store.currentList) {
         text = store.currentList.name;
         status = 
-            <div id="top5-statusbar">
+            <div id="top5-statusbar" style={{backgroundColor: '#c4c4c4'}}>
                 <Typography variant="h4">{text}</Typography>
             </div>
     } else {

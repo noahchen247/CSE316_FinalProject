@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
+import Statusbar from './Statusbar'
 
 import HomeIcon from '@mui/icons-material/Home'
 import GroupsIcon from '@mui/icons-material/Groups'
@@ -110,6 +111,7 @@ const HomeScreen = () => {
                 }
                 <MUIDeleteModal />
             </div>
+            <Statusbar />
         </div>)
 }
 
