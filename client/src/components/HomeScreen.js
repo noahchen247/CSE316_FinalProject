@@ -12,6 +12,8 @@ import Fab from '@mui/material/Fab'
 import List from '@mui/material/List';
 //import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField';
+
+import WorkspaceScreen from './WorkspaceScreen.js'
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -20,12 +22,6 @@ import TextField from '@mui/material/TextField';
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [searchState, setSearchState] = useState("Home");
-
-    /*
-    useEffect(() => {
-        //store.homeTest();
-    }, []);
-    */
 
     function handleHomePairs() {
         setSearchState("Home");
@@ -36,7 +32,6 @@ const HomeScreen = () => {
         store.getAllLists();
     }
     function handleUserPairs() {
-        //console.log(document.getElementById("search-bar").value);
         setSearchState("Users");
         store.getUsersLists();
     }
@@ -58,18 +53,23 @@ const HomeScreen = () => {
     }
     let listCard = "";
     if (store) {
-        listCard = 
-            <List sx={{ width: '90%', left: '5%' }}>
-            {
-                store.idNamePairs.map((pair) => (
-                    <ListCard
-                        key={pair._id}
-                        idNamePair={pair}
-                        searchState={searchState}
-                    />
-                ))
-            }
-            </List>;
+        if (store.currentList != null) {
+            listCard = <WorkspaceScreen />
+        }
+        else {
+            listCard = 
+                <List sx={{ width: '90%', left: '5%' }}>
+                {
+                    store.idNamePairs.map((pair) => (
+                        <ListCard
+                            key={pair._id}
+                            idNamePair={pair}
+                            searchState={searchState}
+                        />
+                    ))
+                }
+                </List>;
+        }
     }
     return (
         <div id="top5-list-selector" style={{backgroundColor: '#c4c4c4'}}>

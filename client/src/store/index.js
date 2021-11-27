@@ -164,7 +164,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.GET_ALL_LISTS: {
                 return setStore({
                     idNamePairs: payload,
-                    currentList: store.currentList,
+                    currentList: null,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
@@ -174,7 +174,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.FILTER_PAIRS: {
                 return setStore({
                     idNamePairs: payload,
-                    currentList: store.currentList,
+                    currentList: null,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
@@ -184,7 +184,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.CLEAN_PAIRS: {
                 return setStore({
                     idNamePairs: [],
-                    currentList: store.currentList,
+                    currentList: null,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
@@ -195,7 +195,7 @@ function GlobalStoreContextProvider(props) {
                 //console.log("PAYLOAD: " + payload);
                 return setStore({
                     idNamePairs: payload,
-                    currentList: store.currentList,
+                    currentList: null,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
@@ -318,6 +318,7 @@ function GlobalStoreContextProvider(props) {
                 type: GlobalStoreActionType.FILTER_PAIRS,
                 payload: pairs
             });
+            history.push("/");
         }
     }
 
@@ -326,7 +327,8 @@ function GlobalStoreContextProvider(props) {
         storeReducer({
             type: GlobalStoreActionType.CLEAN_PAIRS,
             payload: []
-        })
+        });
+        history.push("/");
     }
 
     store.searchHomePairsByName = async function (criteria) {
@@ -353,6 +355,7 @@ function GlobalStoreContextProvider(props) {
                 type: GlobalStoreActionType.GET_ALL_LISTS,
                 payload: top5Lists
             });
+            history.push("/");
         }
     }
 
