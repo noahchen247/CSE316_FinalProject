@@ -70,6 +70,8 @@ const HomeScreen = () => {
     }
     function sort (criteria) {
         console.log("Sorting By: " + criteria);
+        store.sortListsByCriteria(criteria);
+        handleMenuClose();
     }
     let listCard = "";
     if (store) {

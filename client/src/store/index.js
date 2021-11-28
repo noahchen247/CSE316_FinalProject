@@ -388,6 +388,31 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
+    store.sortListsByCriteria = function (criteria) {
+        let pairs = store.idNamePairs;
+        if (criteria === "Publish Date (Newest)") {
+            pairs = pairs.sort((a, b) => a.published < b.published);
+        }
+        else if (criteria === "Publish Date (Oldest)") {
+            pairs = pairs.sort((a, b) => a.published > b.published);
+        }
+        /*
+        else if (criteria === "Views") {
+            pairs = pairs.sort((a, b) => a.views > b.views);
+        }
+        else if (criteria === "Likes") {
+            pairs = pairs.sort((a, b) => a.likes > b.likes;
+        }
+        else if (criteria === "Dislikes") {
+            pairs = pairs.sort((a, b) => a.dislikes > b.dislikes);
+        }
+        */
+        storeReducer({
+            type: GlobalStoreActionType.FILTER_PAIRS,
+            payload: pairs
+        });
+    }
+
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION
     // OF A LIST, WHICH INCLUDES USING A VERIFICATION MODAL. THE
     // FUNCTIONS ARE markListForDeletion, deleteList, deleteMarkedList,
