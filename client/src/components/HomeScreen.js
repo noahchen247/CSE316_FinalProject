@@ -113,7 +113,7 @@ const HomeScreen = () => {
                     aria-controls={menuId}
                     aria-haspopup="true"
                     onClick={handleSortMenuOpen} >
-                    <SortIcon style={{ width: 60, height: 60, minWidth: '80px' }} />
+                    <SortIcon style={{ width: 60, height: 60, minWidth: '80px', minHeight: '80px' }} />
                 </IconButton>
                 <Menu
                     anchorEl={anchorEl}

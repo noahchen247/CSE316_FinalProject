@@ -128,7 +128,7 @@ body {
 #list-selector-heading {
   position: absolute;
   left: 4%;
-  top: 0%;
+  top: 1%;
   width: 80%;
   height: 10%;
   text-align: center;
@@ -142,7 +142,7 @@ body {
 #list-selector-ending {
   position: absolute;
   right: 6%;
-  top: 0%;
+  top: 1%;
   width: 20%;
   height: 10%;
   text-align: center;
