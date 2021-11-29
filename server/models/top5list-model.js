@@ -8,10 +8,10 @@ const Top5ListSchema = new Schema(
         ownerEmail: { type: String },
         publisher: { type: String },
         comments: { type: [[String, String]] },
-        isPublished: { type: int },
-        views: { type: int },
-        likes: { type: int },
-        dislikes: { type: int }
+        isPublished: { type: Number },
+        views: { type: Number },
+        likes: { type: Number },
+        dislikes: { type: Number }
     },
     { timestamps: true },
 )

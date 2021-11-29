@@ -158,19 +158,7 @@ getTop5ListsByEmail = async (req, res) => {
                 else {
                     console.log("Send the Top5List pairs");
                     // PUT ALL THE LISTS INTO ID, NAME PAIRS
-                    let ownedLists = [];
-                    for (let key in top5Lists) {
-                        let list = top5Lists[key];
-                        let info = {
-                            _id: list._id,
-                            name: list.name,
-                            ownerEmail: list.ownerEmail,
-                            publisher: list.publisher,
-                            published: list.createdAt
-                        };
-                        ownedLists.push(info);
-                    }
-                    return res.status(200).json({ success: true, top5Lists: ownedLists })
+                    return res.status(200).json({ success: true, top5Lists: top5Lists })
                 }
             }).catch(err => console.log(err))
         }
@@ -187,20 +175,8 @@ getTop5Lists = async (req, res) => {
                 .status(404)
                 .json({ success: false, error: `Top 5 Lists not found` })
         }
-        //console.log(top5Lists.length);
-        let ownedLists = [];
-        for (let key in top5Lists) {
-            let list = top5Lists[key];
-            let info = {
-                _id: list._id,
-                name: list.name,
-                ownerEmail: list.ownerEmail,
-                publisher: list.publisher,
-                published: list.createdAt
-            };
-            ownedLists.push(info);
-        }
-        return res.status(200).json({ success: true, top5Lists: ownedLists })
+        console.log(top5Lists);
+        return res.status(200).json({ success: true, top5Lists: top5Lists })
     }).catch(err => console.log(err))
 }
 updateTop5List = async (req, res) => {

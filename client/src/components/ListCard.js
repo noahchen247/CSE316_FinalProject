@@ -23,7 +23,7 @@ function ListCard(props) {
     var months = [ "January", "February", "March", "April", "May", "June", 
            "July", "August", "September", "October", "November", "December" ];
 
-    function handleLoadList(event) {
+    function handleLoadList() {
         console.log("handleLoadList for " + idNamePair._id);
         store.setCurrentList(idNamePair._id);
     }
@@ -70,7 +70,7 @@ function ListCard(props) {
                     <Box sx={{ p: 1 }} style={{ fontSize: '20pt' }}>{idNamePair.name}</Box>
                     <Box sx={{ p: 1 }}>By: <span style={{ color: 'blue' }}><u>{idNamePair.publisher}</u></span></Box>
                     {editFunction}
-                    <Box sx={{ p: 1 }}>Published: <span style={{ color: 'green' }}>{formatDate(idNamePair.published)}</span></Box>
+                    <Box sx={{ p: 1 }}>Published: <span style={{ color: 'green' }}>{formatDate(idNamePair.createdAt)}</span></Box>
                 </Box>
                 <Box sx={{ p: 1 }}>
                     <Box sx={{ p: 1}}>
