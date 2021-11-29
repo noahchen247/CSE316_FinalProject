@@ -42,7 +42,7 @@ const HomeScreen = () => {
 
     function handleHomePairs() {
         setSearchState("Home");
-        store.homeTest();
+        store.getHomeLists();
     }
     function handleAllListsPairs() {
         setSearchState("All Lists");
@@ -55,10 +55,9 @@ const HomeScreen = () => {
     //NEED SOMETHING FOR COMMUNITY LISTS IDK
     function search() {
         let criteria = document.getElementById("search-bar").value;
-        console.log(searchState + ": " + criteria);
+        console.log("Searching " + searchState + " Lists with: " + criteria);
         if (searchState === "Home") {
             store.searchHomePairsByName(criteria);
-            //console.log(store.idNamePairs);
         }
         else if (searchState === "All Lists") {
             store.searchAllListsByName(criteria);

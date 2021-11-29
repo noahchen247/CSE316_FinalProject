@@ -289,27 +289,8 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    /*
+    //Initial set for home lists (all lists under auth.user.email)
     store.getHomeLists = async function () {
-        const response = await api.getTop5ListPairs();
-        if (response.status === 200) {
-            let pairs = response.data.idNamePairs;
-            for (const [index, pair] of pairs.entries()) {
-                if (pair.ownerEmail !== auth.user.email) {
-                    pairs.splice(index, 1);
-                }
-            }
-            console.log(pairs);
-            storeReducer({
-                type: GlobalStoreActionType.FILTER_PAIRS,
-                payload: pairs
-            });
-        }
-    }
-    */
-
-    //OKAY THIS IS THE NEW METHOD THAT GETS LISTS MY EMAIL
-    store.homeTest = async function () {
         const response = await api.getTop5ListsByEmail(auth.user.email);
         if (response.status === 200) {
             let pairs = response.data.top5Lists;
