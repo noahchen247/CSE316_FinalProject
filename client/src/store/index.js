@@ -31,7 +31,8 @@ export const GlobalStoreActionType = {
     GET_ALL_LISTS: "GET_ALL_LISTS",
     FILTER_PAIRS: "FILTER_PAIRS",
     CLEAN_PAIRS: "CLEAN_PAIRS",
-    SEARCH_PAIRS: "SEARCH_PAIRS"
+    SEARCH_PAIRS: "SEARCH_PAIRS",
+    REFRESH_PAIRS: "REFRESH_PAIRS"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -202,6 +203,16 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null
                 })
             }
+            case GlobalStoreActionType.REFRESH_PAIRS: {
+                return setStore({
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    newListCounter: store.newListCounter,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null
+                })
+            }
             default:
                 return store;
         }
@@ -254,7 +265,8 @@ function GlobalStoreContextProvider(props) {
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function () {
         let newListName = "Untitled" + store.newListCounter;
-        const response = await api.createTop5List(newListName, ["?", "?", "?", "?", "?"], auth.user.email, auth.user.firstName + " " + auth.user.lastName, [[]]);
+        const response = await api.createTop5List(newListName, ["?", "?", "?", "?", "?"], auth.user.email, 
+            auth.user.firstName + " " + auth.user.lastName, [[]], false, 0, [], []);
         console.log("createNewList response: " + response);
         if (response.status === 201) {
             tps.clearAllTransactions();
@@ -498,6 +510,74 @@ function GlobalStoreContextProvider(props) {
                 type: GlobalStoreActionType.SET_CURRENT_LIST,
                 payload: store.currentList
             });
+        }
+    }
+
+    store.updateList = async function (id) {
+        let response = await api.getTop5ListById(id);
+        if (response.status === 200) {
+            let top5List = response.data.top5List;
+            response = await api.updateTop5ListById(id, top5List);
+        }
+    }
+
+    store.like = async function (id) {
+        let response = await api.getTop5ListById(id);
+        if (response.status === 200) {
+            let top5List = response.data.top5List;
+            top5List.likes.push(auth.user.email);
+            //console.log(top5List);
+            response = await api.updateTop5ListById(top5List._id, top5List);
+            if (response.status === 200) {
+                response = await api.getTop5ListById(id);
+                console.log(response.data.top5List.likes);
+                history.push("/");
+            }
+        }
+    }
+
+    store.dislike = async function (id) {
+        let response = await api.getTop5ListById(id);
+        if (response.status === 200) {
+            let top5List = response.data.top5List;
+            top5List.dislikes.push(auth.user.email);
+            //console.log(top5List);
+            response = await api.updateTop5ListById(top5List._id, top5List);
+            if (response.status === 200) {
+                response = await api.getTop5ListById(id);
+                console.log(response.data.top5List.dislikes);
+                history.push("/");
+            }
+        }
+    }
+
+    store.view = async function (id) {
+        let response = await api.getTop5ListById(id);
+        if (response.status === 200) {
+            let top5List = response.data.top5List;
+            top5List.views = top5List.views + 1;
+            //console.log(top5List);
+            response = await api.updateTop5ListById(top5List._id, top5List);
+            if (response.status === 200) {
+                response = await api.getTop5ListById(id);
+                console.log(response.data.top5List.views);
+                history.push("/");
+            }
+        }
+    }
+
+    store.addComment = async function (id, comment) {
+        let response = await api.getTop5ListById(id);
+        if (response.status === 200) {
+            let top5List = response.data.top5List;
+            top5List.comments.push(comment);
+            //console.log(top5List);
+            response = await api.updateTop5ListById(top5List._id, top5List);
+            if (response.status === 200) {
+                response = await api.getTop5ListById(id);
+                console.log(response.data.top5List.views);
+                history.push("/");
+            }
         }
     }
 
