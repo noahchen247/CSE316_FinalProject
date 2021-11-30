@@ -49,7 +49,7 @@ function ListCard(props) {
     async function handleExpandList(event) {
         event.stopPropagation();
         setExpanded(!expanded);
-        if (!expanded) {
+        if (!expanded && idNamePair.isPublished) {
             store.view(idNamePair);
         }
     }
@@ -123,6 +123,20 @@ function ListCard(props) {
             </Box>
     }
 
+    let deletable = "";
+    if (searchState === "Home") {
+        deletable = 
+            <div>
+                <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '1%', top: '3%', fontSize: '20pt' }}>
+                    <IconButton onClick={(event) => {
+                        handleDeleteList(event, idNamePair._id)
+                    }} aria-label='delete'>
+                        <DeleteIcon style={{fontSize:'40pt'}} />
+                    </IconButton>
+                </Box>
+            </div>
+    }
+
     let likeIcon = <ThumbUpIcon style={{fontSize:'40pt'}} />;
     if (idNamePair.likes.indexOf(auth.user.email) > -1) {
         likeIcon = <LikedIcon style={{fontSize:'40pt'}} />;
@@ -133,8 +147,37 @@ function ListCard(props) {
     }
 
     let background = '#fffff1';
+    let interact = "";
+    let views = "";
+    //temp solution to publish i guess
+    let publishDate = "";
     if (idNamePair.isPublished) {
         background = '#d4d4f5';
+        publishDate =
+            <Box sx={{ p: 1 }}>Published: <span style={{ color: 'green' }}>{formatDate(idNamePair.createdAt)}</span></Box>
+        views = 
+            <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '10%', bottom: '2%' }}>
+                Views: <span style={{ color: 'red' }}>{idNamePair.views}</span>
+            </Box>
+        interact = 
+            <div>
+                <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '20%', top: '3%', fontSize: '20pt' }}>
+                        <IconButton onClick={(event) => {
+                            handleLike(event, idNamePair._id)
+                        }} aria-label='like'>
+                            {likeIcon}
+                        </IconButton>
+                        {idNamePair.likes.length}
+                </Box>
+                <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '10%', top: '3%', fontSize: '20pt' }}>
+                        <IconButton onClick={(event) => {
+                            handleDislike(event, idNamePair._id)
+                        }} aria-label='dislike'>
+                            {dislikeIcon}
+                        </IconButton>
+                        {idNamePair.dislikes.length}
+                </Box>
+            </div>
     }
 
     let cardElement =
@@ -156,31 +199,10 @@ function ListCard(props) {
                     <Box sx={{ p: 1 }}>By: <span style={{ color: 'blue' }}><u>{idNamePair.publisher}</u></span></Box>
                     {expandList}
                     {editFunction}
-                    <Box sx={{ p: 1 }}>Published: <span style={{ color: 'green' }}>{formatDate(idNamePair.createdAt)}</span></Box>
+                    {publishDate}
                 </Box>
-                <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '20%', top: '3%', fontSize: '20pt' }}>
-                        <IconButton onClick={(event) => {
-                            handleLike(event, idNamePair._id)
-                        }} aria-label='like'>
-                            {likeIcon}
-                        </IconButton>
-                        {idNamePair.likes.length}
-                </Box>
-                <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '10%', top: '3%', fontSize: '20pt' }}>
-                        <IconButton onClick={(event) => {
-                            handleDislike(event, idNamePair._id)
-                        }} aria-label='dislike'>
-                            {dislikeIcon}
-                        </IconButton>
-                        {idNamePair.dislikes.length}
-                </Box>
-                <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '1%', top: '3%', fontSize: '20pt' }}>
-                    <IconButton onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
-                        <DeleteIcon style={{fontSize:'40pt'}} />
-                    </IconButton>
-                </Box>
+                {interact}
+                {deletable}
                 <Box style={{ position: 'absolute', right: '1.1%', bottom: '0%', fontSize: '20pt' }}>
                     <IconButton onClick={(event) => {
                         handleExpandList(event)
@@ -188,9 +210,7 @@ function ListCard(props) {
                         {expandIcon}
                     </IconButton>
                 </Box>
-                <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '10%', bottom: '2%' }}>
-                    Views: <span style={{ color: 'red' }}>{idNamePair.views}</span>
-                </Box>
+                {views}
         </ListItem>
     return (
         cardElement
