@@ -211,6 +211,7 @@ updateTop5List = async (req, res) => {
                     list.likes = body.top5List.likes;
                     list.dislikes = body.top5List.dislikes;
                     list.views = body.top5List.views;
+                    list.comments = body.top5List.comments;
                     list
                         .save()
                         .then(() => {

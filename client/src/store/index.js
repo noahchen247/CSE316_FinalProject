@@ -205,7 +205,7 @@ function GlobalStoreContextProvider(props) {
             }
             case GlobalStoreActionType.REFRESH_PAIRS: {
                 return setStore({
-                    idNamePairs: store.idNamePairs,
+                    idNamePairs: payload,
                     currentList: store.currentList,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
@@ -266,7 +266,7 @@ function GlobalStoreContextProvider(props) {
     store.createNewList = async function () {
         let newListName = "Untitled" + store.newListCounter;
         const response = await api.createTop5List(newListName, ["?", "?", "?", "?", "?"], auth.user.email, 
-            auth.user.firstName + " " + auth.user.lastName, [[]], false, 0, [], []);
+            auth.user.firstName + " " + auth.user.lastName, [], false, 0, [], []);
         console.log("createNewList response: " + response);
         if (response.status === 201) {
             tps.clearAllTransactions();
@@ -425,7 +425,11 @@ function GlobalStoreContextProvider(props) {
     store.deleteList = async function (listToDelete) {
         let response = await api.deleteTop5ListById(listToDelete._id);
         if (response.status === 200) {
-            store.loadIdNamePairs();
+            //store.loadIdNamePairs();
+            storeReducer({
+                type: GlobalStoreActionType.REFRESH_PAIRS,
+                payload: store.idNamePairs
+            })
             history.push("/");
         }
     }
@@ -579,7 +583,6 @@ function GlobalStoreContextProvider(props) {
         if (response.status === 200) {
             let top5List = response.data.top5List;
             top5List.comments.push(comment);
-            //console.log(top5List);
             response = await api.updateTop5ListById(top5List._id, top5List);
             if (response.status === 200) {
                 response = await api.getTop5ListById(id);

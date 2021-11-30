@@ -26,6 +26,7 @@ function ListCard(props) {
     const { auth } = useContext(AuthContext);
     const { idNamePair, searchState } = props;
     const [ expanded, setExpanded ] = useState(false);
+    const [ comment, setComment ] = useState("");
 
     var months = [ "January", "February", "March", "April", "May", "June", 
            "July", "August", "September", "October", "November", "December" ];
@@ -63,9 +64,15 @@ function ListCard(props) {
         store.dislike(id);
     }
 
-    async function handleComment(event, id, comment) {
+    async function handleComment(event, id) {
         event.stopPropagation();
-        store.comment(id, [idNamePair.name, comment]);
+        console.log(comment);
+        store.addComment(id, [auth.user.firstName + " " + auth.user.lastName, comment]);
+        setComment("");
+    }
+
+    async function handleChange(event) {
+        setComment(event.target.value);
     }
 
     let expandList = "";
@@ -94,9 +101,12 @@ function ListCard(props) {
                         <div><Typography variant="h4">5. {items[4]} </Typography></div>
                     </div>
                 </div>
-                <TextField placeholder="Add comment" 
+                <TextField type="text"
+                           value={comment}
+                           onChange={handleChange}
+                           placeholder="Add comment" 
                            style={{ width: '45%', position: 'absolute', bottom: '18%', right: '2%' }}
-                           onKeyDown={(e) => {if (e.key === "Enter") { handleComment(e, idNamePair._id, "FILL IN LATER"); }}}
+                           onKeyDown={(e) => {if (e.key === "Enter") { handleComment(e, idNamePair._id); }}}
                 />
             </Box>
             </div>
