@@ -304,6 +304,10 @@ function GlobalStoreContextProvider(props) {
     //Initial set for home lists (all lists under auth.user.email)
     store.getHomeLists = async function () {
         if (auth.isGuest) {
+            storeReducer({
+                type: GlobalStoreActionType.CLEAN_PAIRS,
+                payload: null
+            });
             return;
         }
         const response = await api.getTop5ListsByEmail(auth.user.email);

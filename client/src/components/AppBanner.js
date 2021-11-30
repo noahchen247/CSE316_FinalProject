@@ -14,6 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
+import FaceIcon from '@mui/icons-material/Face';
+
 export default function AppBanner() {
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
@@ -36,6 +38,7 @@ export default function AppBanner() {
     const handleGuestClose = () => {
         handleMenuClose();
         auth.loginGuest();
+        store.getAllLists();
     }
 
     const menuId = 'primary-search-account-menu';
@@ -91,7 +94,10 @@ export default function AppBanner() {
     function getAccountMenu(loggedIn) {
         let userInitials = auth.getUserInitials();
         //console.log("userInitials: " + userInitials);
-        if (loggedIn) 
+        if (auth.isGuest) {
+            return <FaceIcon />;
+        }
+        else if (loggedIn) 
             return <div style={{color: 'black'}}>{userInitials}</div>;
         else
             return <AccountCircle />;
