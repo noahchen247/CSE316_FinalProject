@@ -525,8 +525,12 @@ function GlobalStoreContextProvider(props) {
         let response = await api.getTop5ListById(id);
         if (response.status === 200) {
             let top5List = response.data.top5List;
-            top5List.likes.push(auth.user.email);
-            //console.log(top5List);
+            if (top5List.likes.indexOf(auth.user.email) > -1) {
+                top5List.likes.splice(top5List.likes.indexOf(auth.user.email), 1);
+            }
+            else {
+                top5List.likes.push(auth.user.email);
+            }
             response = await api.updateTop5ListById(top5List._id, top5List);
             if (response.status === 200) {
                 response = await api.getTop5ListById(id);
@@ -540,8 +544,12 @@ function GlobalStoreContextProvider(props) {
         let response = await api.getTop5ListById(id);
         if (response.status === 200) {
             let top5List = response.data.top5List;
-            top5List.dislikes.push(auth.user.email);
-            //console.log(top5List);
+            if (top5List.dislikes.indexOf(auth.user.email) > -1) {
+                top5List.dislikes.splice(top5List.dislikes.indexOf(auth.user.email), 1);
+            }
+            else {
+                top5List.dislikes.push(auth.user.email);
+            }
             response = await api.updateTop5ListById(top5List._id, top5List);
             if (response.status === 200) {
                 response = await api.getTop5ListById(id);
@@ -575,7 +583,6 @@ function GlobalStoreContextProvider(props) {
             response = await api.updateTop5ListById(top5List._id, top5List);
             if (response.status === 200) {
                 response = await api.getTop5ListById(id);
-                console.log(response.data.top5List.views);
                 history.push("/");
             }
         }

@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth'
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import IconButton from '@mui/material/IconButton';
@@ -22,6 +23,7 @@ import Typography from '@mui/material/Typography';
 */
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const { idNamePair, searchState } = props;
     const [ expanded, setExpanded ] = useState(false);
 
@@ -111,6 +113,15 @@ function ListCard(props) {
             </Box>
     }
 
+    let likeIcon = <ThumbUpIcon style={{fontSize:'40pt'}} />;
+    if (idNamePair.likes.indexOf(auth.user.email) > -1) {
+        likeIcon = <LikedIcon style={{fontSize:'40pt'}} />;
+    }
+    let dislikeIcon = <ThumbDownIcon style={{fontSize:'40pt'}} />;
+    if (idNamePair.dislikes.indexOf(auth.user.email) > -1) {
+        dislikeIcon = <DislikedIcon style={{fontSize:'40pt'}} />;
+    }
+
     let cardElement =
         <ListItem
             id={idNamePair._id}
@@ -136,7 +147,7 @@ function ListCard(props) {
                         <IconButton onClick={(event) => {
                             handleLike(event, idNamePair._id)
                         }} aria-label='like'>
-                            <ThumbUpIcon style={{fontSize:'40pt'}} />
+                            {likeIcon}
                         </IconButton>
                         {idNamePair.likes.length}
                 </Box>
@@ -144,7 +155,7 @@ function ListCard(props) {
                         <IconButton onClick={(event) => {
                             handleDislike(event, idNamePair._id)
                         }} aria-label='dislike'>
-                            <ThumbDownIcon style={{fontSize:'40pt'}} />
+                            {dislikeIcon}
                         </IconButton>
                         {idNamePair.dislikes.length}
                 </Box>
