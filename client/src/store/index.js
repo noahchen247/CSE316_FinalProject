@@ -205,7 +205,7 @@ function GlobalStoreContextProvider(props) {
             }
             case GlobalStoreActionType.REFRESH_PAIRS: {
                 return setStore({
-                    idNamePairs: payload,
+                    idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
@@ -524,55 +524,55 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    store.like = async function (id) {
-        let response = await api.getTop5ListById(id);
-        if (response.status === 200) {
-            let top5List = response.data.top5List;
-            if (top5List.likes.indexOf(auth.user.email) > -1) {
-                top5List.likes.splice(top5List.likes.indexOf(auth.user.email), 1);
-            }
-            else {
-                top5List.likes.push(auth.user.email);
-            }
-            response = await api.updateTop5ListById(top5List._id, top5List);
-            if (response.status === 200) {
-                response = await api.getTop5ListById(id);
-                //console.log(response.data.top5List.likes);
-                history.push("/");
-            }
+    store.like = async function (top5List) {
+        if (top5List.likes.indexOf(auth.user.email) > -1) {
+            top5List.likes.splice(top5List.likes.indexOf(auth.user.email), 1);
         }
-    }
-
-    store.dislike = async function (id) {
-        let response = await api.getTop5ListById(id);
-        if (response.status === 200) {
-            let top5List = response.data.top5List;
+        else {
+            top5List.likes.push(auth.user.email);
             if (top5List.dislikes.indexOf(auth.user.email) > -1) {
                 top5List.dislikes.splice(top5List.dislikes.indexOf(auth.user.email), 1);
             }
-            else {
-                top5List.dislikes.push(auth.user.email);
-            }
-            response = await api.updateTop5ListById(top5List._id, top5List);
-            if (response.status === 200) {
-                response = await api.getTop5ListById(id);
-                //console.log(response.data.top5List.dislikes);
-                history.push("/");
-            }
+        }
+        const response = await api.updateTop5ListById(top5List._id, top5List);
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.REFRESH_PAIRS,
+                payload: null
+            })
+            history.push("/");
         }
     }
 
-    store.view = async function (id) {
-        let response = await api.getTop5ListById(id);
-        if (response.status === 200) {
-            let top5List = response.data.top5List;
-            top5List.views = top5List.views + 1;
-            response = await api.updateTop5ListById(top5List._id, top5List);
-            if (response.status === 200) {
-                response = await api.getTop5ListById(id);
-                //console.log(response.data.top5List.views);
-                history.push("/");
+    store.dislike = async function (top5List) {
+        if (top5List.dislikes.indexOf(auth.user.email) > -1) {
+            top5List.dislikes.splice(top5List.likes.indexOf(auth.user.email), 1);
+        }
+        else {
+            top5List.dislikes.push(auth.user.email);
+            if (top5List.likes.indexOf(auth.user.email) > -1) {
+                top5List.likes.splice(top5List.likes.indexOf(auth.user.email), 1);
             }
+        }
+        const response = await api.updateTop5ListById(top5List._id, top5List);
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.REFRESH_PAIRS,
+                payload: null
+            })
+            history.push("/");
+        }
+    }
+
+    store.view = async function (top5List) {
+        top5List.views = top5List.views + 1;
+        const response = await api.updateTop5ListById(top5List._id, top5List);
+        if (response.status === 200) {
+            storeReducer({
+                type: GlobalStoreActionType.REFRESH_PAIRS,
+                payload: null
+            })
+            history.push("/");
         }
     }
 

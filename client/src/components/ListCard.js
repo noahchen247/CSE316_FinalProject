@@ -50,18 +50,18 @@ function ListCard(props) {
         event.stopPropagation();
         setExpanded(!expanded);
         if (!expanded) {
-            store.view(idNamePair._id);
+            store.view(idNamePair);
         }
     }
 
-    async function handleLike(event, id) {
+    async function handleLike(event) {
         event.stopPropagation();
-        store.like(id);
+        store.like(idNamePair);
     }
 
-    async function handleDislike(event, id) {
+    async function handleDislike(event) {
         event.stopPropagation();
-        store.dislike(id);
+        store.dislike(idNamePair);
     }
 
     async function handleComment(event, id) {
@@ -73,19 +73,6 @@ function ListCard(props) {
 
     async function handleChange(event) {
         setComment(event.target.value);
-    }
-
-    function search() {
-        let criteria = document.getElementById("search-bar").value;
-        if (searchState === "Home") {
-            store.searchHomePairsByName(criteria);
-        }
-        else if (searchState === "All Lists") {
-            store.searchAllListsByName(criteria);
-        }
-        else if (searchState === "Users") {
-            store.searchUsersListsByUser(criteria);
-        }
     }
 
     let expandList = "";
@@ -118,7 +105,7 @@ function ListCard(props) {
                            value={comment}
                            onChange={handleChange}
                            placeholder="Add comment" 
-                           style={{ width: '45%', position: 'absolute', bottom: '18%', right: '2%' }}
+                           style={{ width: '40%', position: 'absolute', bottom: '12%', right: '7%' }}
                            onKeyDown={(e) => {if (e.key === "Enter") { handleComment(e, idNamePair._id); }}}
                 />
             </Box>
@@ -187,14 +174,14 @@ function ListCard(props) {
                         </IconButton>
                         {idNamePair.dislikes.length}
                 </Box>
-                <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '1.3%', top: '3%', fontSize: '20pt' }}>
+                <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '1%', top: '3%', fontSize: '20pt' }}>
                     <IconButton onClick={(event) => {
                         handleDeleteList(event, idNamePair._id)
                     }} aria-label='delete'>
                         <DeleteIcon style={{fontSize:'40pt'}} />
                     </IconButton>
                 </Box>
-                <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '1%', bottom: '0%', fontSize: '20pt' }}>
+                <Box style={{ position: 'absolute', right: '1.1%', bottom: '0%', fontSize: '20pt' }}>
                     <IconButton onClick={(event) => {
                         handleExpandList(event)
                     }} aria-label='expand'>
