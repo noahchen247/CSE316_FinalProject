@@ -303,6 +303,9 @@ function GlobalStoreContextProvider(props) {
 
     //Initial set for home lists (all lists under auth.user.email)
     store.getHomeLists = async function () {
+        if (auth.isGuest) {
+            return;
+        }
         const response = await api.getTop5ListsByEmail(auth.user.email);
         if (response.status === 200) {
             let pairs = response.data.top5Lists;
@@ -325,6 +328,9 @@ function GlobalStoreContextProvider(props) {
     }
 
     store.searchHomePairsByName = async function (criteria) {
+        if (auth.isGuest) {
+            return;
+        }
         const response = await api.getTop5ListsByEmail(auth.user.email);
         if (response.status === 200) {
             let pairs = response.data.top5Lists;

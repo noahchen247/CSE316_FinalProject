@@ -55,16 +55,25 @@ function ListCard(props) {
     }
 
     async function handleLike(event) {
+        if (auth.isGuest) {
+            return;
+        }
         event.stopPropagation();
         store.like(idNamePair);
     }
 
     async function handleDislike(event) {
+        if (auth.isGuest) {
+            return;
+        }
         event.stopPropagation();
         store.dislike(idNamePair);
     }
 
-    async function handleComment(event, id) {
+    async function handleComment(event) {
+        if (auth.isGuest) {
+            return;
+        }
         event.stopPropagation();
         console.log(comment);
         store.addComment(idNamePair, [auth.user.firstName + " " + auth.user.lastName, comment]);
@@ -138,11 +147,11 @@ function ListCard(props) {
     }
 
     let likeIcon = <ThumbUpIcon style={{fontSize:'40pt'}} />;
-    if (idNamePair.likes.indexOf(auth.user.email) > -1) {
+    if (!auth.isGuest && idNamePair.likes.indexOf(auth.user.email) > -1) {
         likeIcon = <LikedIcon style={{fontSize:'40pt'}} />;
     }
     let dislikeIcon = <ThumbDownIcon style={{fontSize:'40pt'}} />;
-    if (idNamePair.dislikes.indexOf(auth.user.email) > -1) {
+    if (!auth.isGuest && idNamePair.dislikes.indexOf(auth.user.email) > -1) {
         dislikeIcon = <DislikedIcon style={{fontSize:'40pt'}} />;
     }
 

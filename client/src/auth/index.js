@@ -10,13 +10,15 @@ export const AuthActionType = {
     GET_LOGGED_IN: "GET_LOGGED_IN",
     LOGIN_USER: "LOGIN_USER",
     LOGOUT_USER: "LOGOUT_USER",
-    REGISTER_USER: "REGISTER_USER"
+    REGISTER_USER: "REGISTER_USER",
+    LOGIN_GUEST: "LOGIN_GUEST"
 }
 
 function AuthContextProvider(props) {
     const [auth, setAuth] = useState({
         user: null,
-        loggedIn: false
+        loggedIn: false,
+        isGuest: false
     });
     const history = useHistory();
 
@@ -30,25 +32,36 @@ function AuthContextProvider(props) {
             case AuthActionType.GET_LOGGED_IN: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: payload.loggedIn
+                    loggedIn: payload.loggedIn,
+                    isGuest: auth.isGuest
                 });
             }
             case AuthActionType.LOGIN_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: true
+                    loggedIn: true,
+                    isGuest: false
                 })
             }
             case AuthActionType.LOGOUT_USER: {
                 return setAuth({
                     user: null,
-                    loggedIn: false
+                    loggedIn: false,
+                    isGuest: false
                 })
             }
             case AuthActionType.REGISTER_USER: {
                 return setAuth({
                     user: payload.user,
-                    loggedIn: true
+                    loggedIn: true,
+                    isGuest: false
+                })
+            }
+            case AuthActionType.LOGIN_GUEST: {
+                return setAuth({
+                    user: null,
+                    loggedIn: true,
+                    isGuest: true
                 })
             }
             default:
@@ -125,6 +138,9 @@ function AuthContextProvider(props) {
     }
 
     auth.getUserInitials = function() {
+        if (auth.isGuest) {
+            return "G";
+        }
         let initials = "";
         if (auth.user) {
             initials += auth.user.firstName.charAt(0);
@@ -132,6 +148,14 @@ function AuthContextProvider(props) {
         }
         //console.log("user initials: " + initials);
         return initials;
+    }
+
+    auth.loginGuest = function() {
+        authReducer({
+            type: AuthActionType.LOGIN_GUEST,
+            payload: null
+        })
+        history.push("/");
     }
 
     return (
