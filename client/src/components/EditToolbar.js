@@ -16,20 +16,20 @@ function EditToolbar() {
     function checkPublishState() {
         let checkList = store.currentList.items;
         if (checkList.filter(item => item === "").length > 0) {
-            //console.log("a");
             return false;
         }
         let checkSet = new Set(checkList);
         if (checkList.length !== checkSet.size) {
-            //console.log("b");
             return false;
         }
-        //console.log("c");
         return true;
     }
     function handleSave() {
         store.updateCurrentList();
         setPublishState(!checkPublishState());
+    }
+    function publish() {
+        store.publishCurrentList();
     }
     let editStatus = false;
     if (store.isListNameEditActive) {
@@ -47,7 +47,7 @@ function EditToolbar() {
             <Button 
                 disabled={publishState}
                 id='close-button'
-                onClick={checkPublishState}
+                onClick={publish}
                 variant="contained">
                     Publish
             </Button>

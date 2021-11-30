@@ -343,6 +343,7 @@ function GlobalStoreContextProvider(props) {
         const response = await api.getTop5Lists();
         if (response.status === 200) {
             let top5Lists = response.data.top5Lists;
+            top5Lists = top5Lists.filter(list => list.isPublished);
             //console.log(top5Lists);
             storeReducer({
                 type: GlobalStoreActionType.GET_ALL_LISTS,
@@ -356,6 +357,7 @@ function GlobalStoreContextProvider(props) {
         const response = await api.getTop5Lists();
         if (response.status === 200) {
             let pairs = response.data.top5Lists;
+            pairs = pairs.filter(pair => pair.isPublished);
             if (criteria !== "") {
                 pairs = pairs.filter(pair => pair.publisher === criteria);
             }
@@ -370,6 +372,7 @@ function GlobalStoreContextProvider(props) {
         const response = await api.getTop5Lists();
         if (response.status === 200) {
             let pairs = response.data.top5Lists;
+            pairs = pairs.filter(pair => pair.isPublished);
             if (criteria !== "") {
                 pairs = pairs.filter(pair => pair.name === criteria);
             }
@@ -591,9 +594,19 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    //NOT USED RN CHECK BACK LATER
+    //uhhh IS THIS USED?????
     store.saveCurrentList = async function () {
         const response = await api.updateTop5ListById(store.currentList._id, store.currentList);
+        if (response.status === 200) {
+            store.closeCurrentList();
+        }
+    }
+
+    store.publishCurrentList = async function () {
+        let top5List = store.currentList;
+        top5List.isPublished = true;
+        console.log(top5List);
+        const response = await api.updateTop5ListById(store.currentList._id, top5List);
         if (response.status === 200) {
             store.closeCurrentList();
         }

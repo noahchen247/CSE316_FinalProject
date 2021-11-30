@@ -114,7 +114,7 @@ function ListCard(props) {
     }
 
     let editFunction = "";
-    if (searchState === "Home") {
+    if (!idNamePair.isPublished && searchState === "Home") {
         editFunction = 
             <Box sx={{ p: 1, color: 'red' }} style={{ width: '2%' }}>
                 <Typography style={{ fontSize: '14pt' }} onClick={(event) => handleLoadList(event)}>
@@ -132,6 +132,11 @@ function ListCard(props) {
         dislikeIcon = <DislikedIcon style={{fontSize:'40pt'}} />;
     }
 
+    let background = '#fffff1';
+    if (idNamePair.isPublished) {
+        background = '#d4d4f5';
+    }
+
     let cardElement =
         <ListItem
             id={idNamePair._id}
@@ -142,7 +147,7 @@ function ListCard(props) {
                   borderStyle: 'solid', 
                   borderWidth: '.1px',
                   borderColor: 'black', 
-                  bgcolor: '#d4d4f5', 
+                  bgcolor: {background}, 
                   borderRadius: '15px' }}
             style={{ width: '100%', fontSize: '16pt' }}
         >
