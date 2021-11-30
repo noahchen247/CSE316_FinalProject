@@ -1,5 +1,5 @@
 //import React, { useContext, useEffect, useState } from 'react'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
@@ -63,10 +63,12 @@ const HomeScreen = () => {
             store.searchAllListsByName(criteria);
         }
         else if (searchState === "Users") {
-            //FILL THIS IN AND PROBABLY REPLACE WITH SWITCH???
             store.searchUsersListsByUser(criteria);
         }
     }
+    useEffect(() => {
+        search();
+    }, []);
     function sort (criteria) {
         console.log("Sorting By: " + criteria);
         store.sortListsByCriteria(criteria);

@@ -119,17 +119,7 @@ getTop5ListPairs = async (req, res) => {
                 }
                 else {
                     console.log("Send the Top5List pairs");
-                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
-                    let pairs = [];
-                    for (let key in top5Lists) {
-                        let list = top5Lists[key];
-                        let pair = {
-                            _id: list._id,
-                            name: list.name
-                        };
-                        pairs.push(pair);
-                    }
-                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                    return res.status(200).json({ success: true, idNamePairs: top5Lists })
                 }
             }).catch(err => console.log(err))
         }

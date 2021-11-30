@@ -428,11 +428,7 @@ function GlobalStoreContextProvider(props) {
     store.deleteList = async function (listToDelete) {
         let response = await api.deleteTop5ListById(listToDelete._id);
         if (response.status === 200) {
-            //store.loadIdNamePairs();
-            storeReducer({
-                type: GlobalStoreActionType.REFRESH_PAIRS,
-                payload: store.idNamePairs
-            })
+            store.getHomeLists();
             history.push("/");
         }
     }
@@ -541,7 +537,7 @@ function GlobalStoreContextProvider(props) {
             response = await api.updateTop5ListById(top5List._id, top5List);
             if (response.status === 200) {
                 response = await api.getTop5ListById(id);
-                console.log(response.data.top5List.likes);
+                //console.log(response.data.top5List.likes);
                 history.push("/");
             }
         }
@@ -560,7 +556,7 @@ function GlobalStoreContextProvider(props) {
             response = await api.updateTop5ListById(top5List._id, top5List);
             if (response.status === 200) {
                 response = await api.getTop5ListById(id);
-                console.log(response.data.top5List.dislikes);
+                //console.log(response.data.top5List.dislikes);
                 history.push("/");
             }
         }
@@ -571,11 +567,10 @@ function GlobalStoreContextProvider(props) {
         if (response.status === 200) {
             let top5List = response.data.top5List;
             top5List.views = top5List.views + 1;
-            //console.log(top5List);
             response = await api.updateTop5ListById(top5List._id, top5List);
             if (response.status === 200) {
                 response = await api.getTop5ListById(id);
-                console.log(response.data.top5List.views);
+                //console.log(response.data.top5List.views);
                 history.push("/");
             }
         }

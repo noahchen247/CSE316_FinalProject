@@ -75,6 +75,19 @@ function ListCard(props) {
         setComment(event.target.value);
     }
 
+    function search() {
+        let criteria = document.getElementById("search-bar").value;
+        if (searchState === "Home") {
+            store.searchHomePairsByName(criteria);
+        }
+        else if (searchState === "All Lists") {
+            store.searchAllListsByName(criteria);
+        }
+        else if (searchState === "Users") {
+            store.searchUsersListsByUser(criteria);
+        }
+    }
+
     let expandList = "";
     let expandIcon = <ExpandMoreIcon style={{fontSize:'48pt'}} />;
     if (expanded) {
