@@ -576,16 +576,15 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    store.addComment = async function (id, comment) {
-        let response = await api.getTop5ListById(id);
+    store.addComment = async function (top5List, comment) {
+        top5List.comments.push(comment);
+        const response = await api.updateTop5ListById(top5List._id, top5List);
         if (response.status === 200) {
-            let top5List = response.data.top5List;
-            top5List.comments.push(comment);
-            response = await api.updateTop5ListById(top5List._id, top5List);
-            if (response.status === 200) {
-                response = await api.getTop5ListById(id);
-                history.push("/");
-            }
+            storeReducer({
+                type: GlobalStoreActionType.REFRESH_PAIRS,
+                payload: null
+            })
+            history.push("/");
         }
     }
 

@@ -67,7 +67,7 @@ function ListCard(props) {
     async function handleComment(event, id) {
         event.stopPropagation();
         console.log(comment);
-        store.addComment(id, [auth.user.firstName + " " + auth.user.lastName, comment]);
+        store.addComment(idNamePair, [auth.user.firstName + " " + auth.user.lastName, comment]);
         setComment("");
     }
 
