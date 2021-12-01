@@ -115,13 +115,36 @@ function ListCard(props) {
                         <div><Typography variant="h4">5. {items[4]} </Typography></div>
                     </div>
                 </div>
-                <List>
+                <div style={{ display: 'flex', 
+                              flexDirection: 'column', 
+                              overflow: 'auto'
+                            }}
+                >
+                <List style={{fontSize: '20pt', position: 'absolute', right: '7%', top: '24%', width: '40%', maxHeight: '48%', overflow: 'auto'}}>
                     {
                         idNamePair.comments.map((comment) => (
-                            <Box>{comment.commenter}: {comment.message}</Box>
+                            <Box style={{ marginTop: '15px',
+                                          display: 'flex',
+                                          borderStyle: 'solid', 
+                                          borderWidth: '.1px',
+                                          borderColor: 'black', 
+                                          borderRadius: '10px',
+                                          backgroundColor: '#d4af37',
+                                          color: 'black' }}
+                                 sx={{p: 1}}>
+                                <div>
+                                    <Typography variant="h6">
+                                        <span style={{color: 'blue'}}><u>{comment.commenter}</u></span>
+                                    </Typography>
+                                    <Typography variant="h5"> 
+                                        {comment.message} 
+                                    </Typography>
+                                </div>
+                            </Box>
                         ))
                     }
                 </List>
+                </div>
                 <TextField type="text"
                            value={comment}
                            onChange={handleChange}

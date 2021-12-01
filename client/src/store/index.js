@@ -599,7 +599,7 @@ function GlobalStoreContextProvider(props) {
     }
 
     store.addComment = async function (top5List, comment) {
-        top5List.comments.push(comment);
+        top5List.comments.unshift(comment);
         const response = await api.updateTop5ListById(top5List._id, top5List);
         if (response.status === 200) {
             storeReducer({
