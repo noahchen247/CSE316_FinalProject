@@ -52,7 +52,9 @@ const HomeScreen = () => {
         setSearchState("Users");
         store.getUsersLists();
     }
-    //NEED SOMETHING FOR COMMUNITY LISTS IDK
+    function handleCommunityPairs() {
+        store.getCommunityLists();
+    }
     function search() {
         let criteria = document.getElementById("search-bar").value;
         console.log("Searching " + searchState + " Lists with: " + criteria);
@@ -100,7 +102,7 @@ const HomeScreen = () => {
                 <HomeIcon style={{ width: 60, height: 60, minWidth: '80px' }} onClick={handleHomePairs} />
                 <GroupsIcon style={{ width: 60, height: 60, minWidth: '80px' }} onClick={handleAllListsPairs} />
                 <PersonIcon style={{ width: 60, height: 60, minWidth: '80px' }} onClick={handleUserPairs} />
-                <FunctionsIcon style={{ width: 60, height: 60, minWidth: '80px' }} onClick={handleHomePairs}/>
+                <FunctionsIcon style={{ width: 60, height: 60, minWidth: '80px' }} onClick={handleCommunityPairs}/>
                 <TextField id='search-bar' 
                            placeholder="Search" 
                            type="search" 

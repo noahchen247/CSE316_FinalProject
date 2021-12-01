@@ -189,43 +189,32 @@ updateTop5List = async (req, res) => {
 
         // DOES THIS LIST BELONG TO THIS USER?
         async function asyncFindUser(list) {
-            await User.findOne({ email: list.ownerEmail }, (err, user) => {
-                console.log("user._id: " + user._id);
-                console.log("req.userId: " + req.userId);
-                if (user._id == req.userId) {
-                    console.log("correct user!");
-                    console.log("req.body.name, req.body.items: " + req.body.name + ", " + req.body.items);
-
-                    list.name = body.top5List.name;
-                    list.items = body.top5List.items;
-                    list.isPublished = body.top5List.isPublished;
-                    list.likes = body.top5List.likes;
-                    list.dislikes = body.top5List.dislikes;
-                    list.views = body.top5List.views;
-                    list.comments = body.top5List.comments;
-                    list
-                        .save()
-                        .then(() => {
-                            console.log("SUCCESS!!!");
-                            return res.status(200).json({
-                                success: true,
-                                id: list._id,
-                                message: 'Top 5 List updated!',
-                            })
-                        })
-                        .catch(error => {
-                            console.log("FAILURE: " + JSON.stringify(error));
-                            return res.status(404).json({
-                                error,
-                                message: 'Top 5 List not updated!',
-                            })
-                        })
-                }
-                else {
-                    console.log("incorrect user!");
-                    return res.status(400).json({ success: false, description: "authentication error" });
-                }
-            });
+            list.name = body.top5List.name;
+            list.items = body.top5List.items;
+            list.isPublished = body.top5List.isPublished;
+            list.likes = body.top5List.likes;
+            list.dislikes = body.top5List.dislikes;
+            list.views = body.top5List.views;
+            list.comments = body.top5List.comments;
+            list.isCommunity = body.top5List.isCommunity;
+            list.communityItems = body.top5List.communityItems;
+            list
+                .save()
+                .then(() => {
+                    console.log("SUCCESS!!!");
+                    return res.status(200).json({
+                        success: true,
+                        id: list._id,
+                        message: 'Top 5 List updated!',
+                    })
+                })
+                .catch(error => {
+                    console.log("FAILURE: " + JSON.stringify(error));
+                    return res.status(404).json({
+                        error,
+                        message: 'Top 5 List not updated!',
+                    })
+                })
         }
         asyncFindUser(top5List);
     })

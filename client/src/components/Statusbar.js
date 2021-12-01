@@ -22,7 +22,15 @@ function Statusbar() {
             <div id="top5-statusbar" style={{backgroundColor: '#c4c4c4'}}>
                 <Typography variant="h4">{text}</Typography>
             </div>
-    } else {
+    } 
+    else if (document.getElementById("search-bar").value !== "") {
+        text = document.getElementById("search-bar").value;
+        status = 
+            <div id="top5-statusbar" style={{backgroundColor: '#c4c4c4'}}>
+                <Typography variant="h4">{text} Lists</Typography>
+            </div>
+    }
+    else {
         status = 
             <div id="top5-statusbar" style={{backgroundColor: '#c4c4c4'}}>
                 <Fab 

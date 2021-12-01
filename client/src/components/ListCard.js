@@ -133,7 +133,7 @@ function ListCard(props) {
     }
 
     let deletable = "";
-    if (searchState === "Home") {
+    if (searchState === "Home" && !idNamePair.isCommunity) {
         deletable = 
             <div>
                 <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '1%', top: '3%', fontSize: '20pt' }}>
@@ -153,6 +153,12 @@ function ListCard(props) {
     let dislikeIcon = <ThumbDownIcon style={{fontSize:'40pt'}} />;
     if (!auth.isGuest && idNamePair.dislikes.indexOf(auth.user.email) > -1) {
         dislikeIcon = <DislikedIcon style={{fontSize:'40pt'}} />;
+    }
+
+    let publishUser = "";
+    if (!idNamePair.isCommunity) {
+        publishUser =
+            <Box sx={{ p: 1 }}>By: <span style={{ color: 'blue' }}><u>{idNamePair.publisher}</u></span></Box>
     }
 
     let background = '#fffff1';
@@ -205,7 +211,7 @@ function ListCard(props) {
         >
                 <Box sx={{ flexGrow: 1 }}>
                     <Box sx={{ p: 1 }} style={{ fontSize: '20pt' }}>{idNamePair.name}</Box>
-                    <Box sx={{ p: 1 }}>By: <span style={{ color: 'blue' }}><u>{idNamePair.publisher}</u></span></Box>
+                    {publishUser}
                     {expandList}
                     {editFunction}
                     {publishDate}

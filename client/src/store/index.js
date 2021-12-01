@@ -266,7 +266,7 @@ function GlobalStoreContextProvider(props) {
     store.createNewList = async function () {
         let newListName = "Untitled" + store.newListCounter;
         const response = await api.createTop5List(newListName, ["?", "?", "?", "?", "?"], auth.user.email, 
-            auth.user.firstName + " " + auth.user.lastName, [], false, 0, [], []);
+            auth.user.firstName + " " + auth.user.lastName, [], false, 0, [], [], false, []);
         console.log("createNewList response: " + response);
         if (response.status === 201) {
             tps.clearAllTransactions();
@@ -322,6 +322,18 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
+    store.getCommunityLists = async function () {
+        const response = await api.getTop5Lists();
+        if (response.status === 200) {
+            let lists = response.data.top5Lists;
+            lists = lists.filter(list => list.isCommunity);
+            storeReducer({
+                type: GlobalStoreActionType.FILTER_PAIRS,
+                payload: lists
+            });
+        }
+    }
+
     //initial set for users list to null (all lists that are published)
     store.getUsersLists = async function () {
         storeReducer({
@@ -353,7 +365,7 @@ function GlobalStoreContextProvider(props) {
         const response = await api.getTop5Lists();
         if (response.status === 200) {
             let top5Lists = response.data.top5Lists;
-            top5Lists = top5Lists.filter(list => list.isPublished);
+            top5Lists = top5Lists.filter(list => list.isPublished && !list.isCommunity);
             //console.log(top5Lists);
             storeReducer({
                 type: GlobalStoreActionType.GET_ALL_LISTS,
@@ -367,7 +379,7 @@ function GlobalStoreContextProvider(props) {
         const response = await api.getTop5Lists();
         if (response.status === 200) {
             let pairs = response.data.top5Lists;
-            pairs = pairs.filter(pair => pair.isPublished);
+            pairs = pairs.filter(pair => pair.isPublished && !pair.isCommunity);
             if (criteria !== "") {
                 pairs = pairs.filter(pair => pair.publisher === criteria);
             }
@@ -382,7 +394,7 @@ function GlobalStoreContextProvider(props) {
         const response = await api.getTop5Lists();
         if (response.status === 200) {
             let pairs = response.data.top5Lists;
-            pairs = pairs.filter(pair => pair.isPublished);
+            pairs = pairs.filter(pair => pair.isPublished && !pair.isCommunity);
             if (criteria !== "") {
                 pairs = pairs.filter(pair => pair.name === criteria);
             }
@@ -606,13 +618,69 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
+    store.handleCommunityLists = async function (top5List) {
+        let response = await api.getTop5Lists();
+        if (response.status === 200) {
+            let lists = response.data.top5Lists;
+            lists = lists.filter(list => list.isCommunity);
+            let associated = lists.find(list => list.name === top5List.name);
+            //console.log(associated);
+            if (associated !== undefined) {
+                console.log("Updating community list");
+                let itemsToAdd = top5List.items;
+                for (let i = 0; i < 5; i++) {
+                    let findItem = itemsToAdd[i];
+                    let found = associated.communityItems.findIndex(object => object.item === findItem);
+                    if (found > -1) {
+                        let base = associated.communityItems[found].points;
+                        let newItem = {
+                            item: findItem,
+                            points: 5 - i + base
+                        }
+                        associated.communityItems[found] = newItem;
+                    }
+                    else {
+                        let newItem = {
+                            item: findItem,
+                            points: 5-i
+                        }
+                        associated.communityItems.push(newItem);
+                    }
+                }
+                console.log(associated.communityItems);
+                console.log(associated._id);
+                response = await api.updateTop5ListById(associated._id, associated);
+                if (response === 200) {
+                    console.log("SUCESSFULLY UPDATED");
+                }
+            }
+            else {
+                let communityItems = [];
+                for (let j = 0; j < 5; j++) {
+                    let newItem = {
+                        item: top5List.items[j],
+                        points: 5-j
+                    }
+                    communityItems.push(newItem);
+                }
+                response = await api.createTop5List(top5List.name, top5List.items, "", "", [], true, 0, [], [], true, communityItems);
+                if (response.status === 201) {
+                    console.log("Created new community list");
+                    //console.log(response.data.top5List);
+                }
+            }
+        }
+    }
+
     store.publishCurrentList = async function () {
         let top5List = store.currentList;
         top5List.isPublished = true;
         console.log(top5List);
         const response = await api.updateTop5ListById(store.currentList._id, top5List);
         if (response.status === 200) {
+            store.handleCommunityLists(top5List);
             store.closeCurrentList();
+            store.getHomeLists();
         }
     }
 
