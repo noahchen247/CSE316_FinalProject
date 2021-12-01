@@ -9,8 +9,9 @@ import AddIcon from '@mui/icons-material/Add';
     
     @author McKilla Gorilla
 */
-function Statusbar() {
+function Statusbar(props) {
     const { store } = useContext(GlobalStoreContext);
+    const { passed } = props;
     function handleCreateNewList() {
         store.createNewList();
     }
@@ -23,11 +24,11 @@ function Statusbar() {
                 <Typography variant="h4">{text}</Typography>
             </div>
     } 
-    else if (document.getElementById("search-bar").value !== "") {
-        text = document.getElementById("search-bar").value;
+    else if (passed !== "") {
+        console.log(passed);
         status = 
             <div id="top5-statusbar" style={{backgroundColor: '#c4c4c4'}}>
-                <Typography variant="h4">{text} Lists</Typography>
+                <Typography variant="h4">{passed} Lists</Typography>
             </div>
     }
     else {

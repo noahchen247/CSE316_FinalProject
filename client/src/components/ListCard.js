@@ -4,6 +4,7 @@ import AuthContext from '../auth'
 import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -76,7 +77,11 @@ function ListCard(props) {
         }
         event.stopPropagation();
         console.log(comment);
-        store.addComment(idNamePair, [auth.user.firstName + " " + auth.user.lastName, comment]);
+        let newComment = {
+            commenter: auth.user.firstName + " " + auth.user.lastName,
+            message: comment
+        }
+        store.addComment(idNamePair, newComment);
         setComment("");
     }
 
@@ -110,6 +115,13 @@ function ListCard(props) {
                         <div><Typography variant="h4">5. {items[4]} </Typography></div>
                     </div>
                 </div>
+                <List>
+                    {
+                        idNamePair.comments.map((comment) => (
+                            <Box>{comment.commenter}: {comment.message}</Box>
+                        ))
+                    }
+                </List>
                 <TextField type="text"
                            value={comment}
                            onChange={handleChange}

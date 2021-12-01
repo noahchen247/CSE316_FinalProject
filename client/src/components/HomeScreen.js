@@ -30,6 +30,7 @@ const HomeScreen = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
     const menuId = 'primary-sort-account-menu';
+    const [pass, setPass] = useState("false");
 
     const handleSortMenuOpen = (event) => {
         event.stopPropagation();
@@ -57,6 +58,7 @@ const HomeScreen = () => {
     }
     function search() {
         let criteria = document.getElementById("search-bar").value;
+        setPass(criteria);
         console.log("Searching " + searchState + " Lists with: " + criteria);
         if (searchState === "Home") {
             store.searchHomePairsByName(criteria);
@@ -146,7 +148,7 @@ const HomeScreen = () => {
                 }
                 <MUIDeleteModal />
             </div>
-            <Statusbar />
+            <Statusbar passed={pass} />
         </div>)
 }
 
