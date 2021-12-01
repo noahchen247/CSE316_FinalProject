@@ -91,9 +91,11 @@ function ListCard(props) {
 
     let expandList = "";
     let expandIcon = <ExpandMoreIcon style={{fontSize:'48pt'}} />;
+    let expandComments = "";
     if (expanded) {
         let items = idNamePair.items;
-        expandList = 
+        if (!idNamePair.isCommunity) {
+            expandList = 
             <div>
             <Box sx={{ marginTop: '15px',
                        display: 'flex', 
@@ -115,15 +117,50 @@ function ListCard(props) {
                         <div><Typography variant="h4">5. {items[4]} </Typography></div>
                     </div>
                 </div>
-                <div style={{ display: 'flex', 
-                              flexDirection: 'column', 
-                              overflow: 'auto'
-                            }}
-                >
-                <List style={{fontSize: '20pt', position: 'absolute', right: '7%', top: '24%', width: '40%', maxHeight: '48%', overflow: 'auto'}}>
+            </Box>
+            </div>
+        }
+        else {
+            let getTop5 = idNamePair.communityItems;
+            expandList = 
+            <div>
+            <Box sx={{ marginTop: '15px',
+                       display: 'flex', 
+                       p: 2,
+                       borderStyle: 'solid', 
+                       borderWidth: '.1px',
+                       borderColor: 'black', 
+                       bgcolor: '#2c2f70', 
+                       borderRadius: '15px',
+                       flexGrow: 1 }} 
+                style={{ width: '50%', fontSize: '12pt', color: '#d0ab38' }}
+            >
+                <div>
+                    <div>
+                        <Typography variant="h4">1. {getTop5[0].item} </Typography>
+                        <Typography variant="h7"> ({getTop5[0].points} Votes) </Typography><br/>
+                        <Typography variant="h4">2. {getTop5[1].item} </Typography>
+                        <Typography variant="h7"> ({getTop5[1].points} Votes) </Typography><br/>
+                        <Typography variant="h4">3. {getTop5[2].item} </Typography>
+                        <Typography variant="h7"> ({getTop5[2].points} Votes) </Typography><br/>
+                        <Typography variant="h4">4. {getTop5[3].item} </Typography>
+                        <Typography variant="h7"> ({getTop5[3].points} Votes) </Typography><br/>
+                        <Typography variant="h4">5. {getTop5[4].item} </Typography>
+                        <Typography variant="h7"> ({getTop5[4].points} Votes) </Typography><br/>
+                    </div>
+                </div>
+            </Box>
+            </div>
+        }
+        
+        expandComments =
+            <div>
+                <div style={{ display: 'flex',  flexDirection: 'column',  overflow: 'auto' }}>
+                <List style={{ fontSize: '20pt', position: 'absolute', right: '7%', 
+                               top: '24%', width: '40%', maxHeight: '48%', overflow: 'auto'}}>
                     {
                         idNamePair.comments.map((comment) => (
-                            <Box style={{ marginTop: '15px',
+                            <Box style={{ marginTop: '5px',
                                           display: 'flex',
                                           borderStyle: 'solid', 
                                           borderWidth: '.1px',
@@ -134,25 +171,18 @@ function ListCard(props) {
                                  sx={{p: 1}}>
                                 <div>
                                     <Typography variant="h6">
-                                        <span style={{color: 'blue'}}><u>{comment.commenter}</u></span>
+                                        <span style={{color:'blue'}}><u>{comment.commenter}</u></span>
                                     </Typography>
-                                    <Typography variant="h5"> 
-                                        {comment.message} 
-                                    </Typography>
+                                    <Typography variant="h5"> {comment.message} </Typography>
                                 </div>
                             </Box>
                         ))
                     }
                 </List>
                 </div>
-                <TextField type="text"
-                           value={comment}
-                           onChange={handleChange}
-                           placeholder="Add comment" 
+                <TextField type="text" value={comment} onChange={handleChange} placeholder="Add comment" 
                            style={{ width: '40%', position: 'absolute', bottom: '12%', right: '7%' }}
-                           onKeyDown={(e) => {if (e.key === "Enter") { handleComment(e, idNamePair._id); }}}
-                />
-            </Box>
+                           onKeyDown={(e) => {if (e.key === "Enter") { handleComment(e, idNamePair._id); }}} />
             </div>
         expandIcon = <ExpandLessIcon style={{fontSize:'48pt'}} />;
     }
@@ -254,6 +284,7 @@ function ListCard(props) {
                     <Box sx={{ p: 1 }} style={{ fontSize: '20pt' }}>{idNamePair.name}</Box>
                     {publishUser}
                     {expandList}
+                    {expandComments}
                     {editFunction}
                     {publishDate}
                 </Box>
