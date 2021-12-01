@@ -414,17 +414,15 @@ function GlobalStoreContextProvider(props) {
         else if (criteria === "Publish Date (Oldest)") {
             pairs = pairs.sort((a, b) => a.published > b.published);
         }
-        /*
         else if (criteria === "Views") {
-            pairs = pairs.sort((a, b) => a.views > b.views);
+            pairs = pairs.sort((a, b) => a.views < b.views);
         }
         else if (criteria === "Likes") {
-            pairs = pairs.sort((a, b) => a.likes > b.likes;
+            pairs = pairs.sort((a, b) => a.likes.length < b.likes.length);
         }
         else if (criteria === "Dislikes") {
-            pairs = pairs.sort((a, b) => a.dislikes > b.dislikes);
+            pairs = pairs.sort((a, b) => a.dislikes.length < b.dislikes.length);
         }
-        */
         storeReducer({
             type: GlobalStoreActionType.FILTER_PAIRS,
             payload: pairs
