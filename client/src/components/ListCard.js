@@ -203,8 +203,14 @@ function ListCard(props) {
     let publishDate = "";
     if (idNamePair.isPublished) {
         background = '#d4d4f5';
-        publishDate =
-            <Box sx={{ p: 1 }}>Published: <span style={{ color: 'green' }}>{formatDate(idNamePair.createdAt)}</span></Box>
+        if (idNamePair.isCommunity) {
+            publishDate =
+                <Box sx={{ p: 1 }}>Updated: <span style={{ color: 'green' }}>{formatDate(idNamePair.createdAt)}</span></Box>
+        }
+        else {
+            publishDate =
+                <Box sx={{ p: 1 }}>Published: <span style={{ color: 'green' }}>{formatDate(idNamePair.createdAt)}</span></Box>
+        }
         views = 
             <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '10%', bottom: '2%' }}>
                 Views: <span style={{ color: 'red' }}>{idNamePair.views}</span>
