@@ -85,6 +85,7 @@ const HomeScreen = () => {
         }
         else {
             listCard = 
+            <div id="list-selector-list">
                 <List sx={{ width: '90%', left: '5%' }}>
                 {
                     store.idNamePairs.map((pair) => (
@@ -96,6 +97,8 @@ const HomeScreen = () => {
                     ))
                 }
                 </List>;
+                <MUIDeleteModal />
+            </div>
         }
     }
     return (
@@ -142,12 +145,7 @@ const HomeScreen = () => {
                     <MenuItem onClick={() => sort("Dislikes")}>Dislikes</MenuItem>
                 </Menu>
             </div>
-            <div id="list-selector-list">
-                {
-                    listCard
-                }
-                <MUIDeleteModal />
-            </div>
+            {listCard}
             <Statusbar passed={pass} />
         </div>)
 }

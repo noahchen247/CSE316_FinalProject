@@ -16,15 +16,7 @@ function Statusbar(props) {
         store.createNewList();
     }
     let status = "";
-    let text = "";
-    if (store.currentList) {
-        text = store.currentList.name;
-        status = 
-            <div id="top5-statusbar" style={{backgroundColor: '#c4c4c4'}}>
-                <Typography variant="h4">{text}</Typography>
-            </div>
-    } 
-    else if (passed !== "") {
+    if (passed !== "") {
         console.log(passed);
         status = 
             <div id="top5-statusbar" style={{backgroundColor: '#c4c4c4'}}>
