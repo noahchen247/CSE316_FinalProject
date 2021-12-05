@@ -126,6 +126,17 @@ registerUser = async (req, res) => {
                 })
         }
 
+        const existingName = await User.findOne({ firstName: firstName, lastName: lastName });
+        console.log("existingName: " + existingName);
+        if (existingName) {
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    errorMessage: "An account with this user name already exists."
+                })
+        }
+
         const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
         const passwordHash = await bcrypt.hash(password, salt);
