@@ -30,12 +30,10 @@ const App = () => {
                     <Switch>
                         <Route path="/login/" exact component={LoginScreen} />
                         <Route path="/register/" exact component={RegisterScreen} />
+                        <Route path="/">
+                            <HomeWrapper />
+                        </Route>
                     </Switch>
-                    <HomeWrapper>
-                        <Switch>
-                            <Route path="/top5list/:id" exact component={WorkspaceScreen} />
-                        </Switch>
-                    </HomeWrapper>
                 </GlobalStoreContextProvider>
             </AuthContextProvider>
         </BrowserRouter>
