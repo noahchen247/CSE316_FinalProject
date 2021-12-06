@@ -41,6 +41,10 @@ const HomeScreen = () => {
         setAnchorEl(null);
     };
 
+    function clearSearch() {
+        document.getElementById("search-bar").value = "";
+        setPass("");
+    }
     function handleHomePairs() {
         setSearchState("Home");
         store.getHomeLists();
@@ -54,6 +58,7 @@ const HomeScreen = () => {
         store.getUsersLists();
     }
     function handleCommunityPairs() {
+        setSearchState("Community Lists")
         store.getCommunityLists();
     }
     function search() {
@@ -62,12 +67,19 @@ const HomeScreen = () => {
         console.log("Searching " + searchState + " Lists with: " + criteria);
         if (searchState === "Home") {
             store.searchHomePairsByName(criteria);
+            document.getElementById("search-bar").value = "";
         }
         else if (searchState === "All Lists") {
             store.searchAllListsByName(criteria);
+            document.getElementById("search-bar").value = "";
         }
         else if (searchState === "Users") {
             store.searchUsersListsByUser(criteria);
+            document.getElementById("search-bar").value = "";
+        }
+        else if (searchState === "Community Lists") {
+            store.searchCommunityListsByName(criteria);
+            document.getElementById("search-bar").value = "";
         }
     }
     useEffect(() => {
@@ -79,9 +91,11 @@ const HomeScreen = () => {
         handleMenuClose();
     }
     let listCard = "";
+    let disableButton = false;
     if (store) {
-        if (store.currentList != null) {
+        if (store.currentList !== null) {
             listCard = <WorkspaceScreen />
+            disableButton = true;
         }
         else {
             listCard = 
@@ -104,10 +118,18 @@ const HomeScreen = () => {
     return (
         <div id="top5-list-selector" style={{backgroundColor: '#c4c4c4'}}>
             <div id="list-selector-heading">
-                <HomeIcon style={{ width: 60, height: 60, minWidth: '80px' }} onClick={handleHomePairs} />
-                <GroupsIcon style={{ width: 60, height: 60, minWidth: '80px' }} onClick={handleAllListsPairs} />
-                <PersonIcon style={{ width: 60, height: 60, minWidth: '80px' }} onClick={handleUserPairs} />
-                <FunctionsIcon style={{ width: 60, height: 60, minWidth: '80px' }} onClick={handleCommunityPairs}/>
+                <IconButton disabled={disableButton} onClick={handleHomePairs}>
+                    <HomeIcon style={{ width: 60, height: 60, minWidth: '80px' }} />
+                </IconButton>
+                <IconButton disabled={disableButton} onClick={handleAllListsPairs}>
+                    <GroupsIcon style={{ width: 60, height: 60, minWidth: '80px' }} />
+                </IconButton>
+                <IconButton disabled={disableButton} onClick={handleUserPairs}>
+                    <PersonIcon style={{ width: 60, height: 60, minWidth: '80px' }} />
+                </IconButton>
+                <IconButton disabled={disableButton} onClick={handleCommunityPairs}>
+                    <FunctionsIcon style={{ width: 60, height: 60, minWidth: '80px' }} />
+                </IconButton>
                 <TextField id='search-bar' 
                            placeholder="Search" 
                            type="search" 

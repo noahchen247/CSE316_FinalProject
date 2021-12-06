@@ -359,7 +359,7 @@ function GlobalStoreContextProvider(props) {
         if (response.status === 200) {
             let pairs = response.data.top5Lists;
             if (criteria !== "") {
-                pairs = pairs.filter(pair => pair.name === criteria);
+                pairs = pairs.filter(pair => pair.name.indexOf(criteria) > -1);
             }
             //console.log(filteredLists);
             storeReducer({
@@ -389,7 +389,7 @@ function GlobalStoreContextProvider(props) {
             let pairs = response.data.top5Lists;
             pairs = pairs.filter(pair => pair.isPublished && !pair.isCommunity);
             if (criteria !== "") {
-                pairs = pairs.filter(pair => pair.publisher === criteria);
+                pairs = pairs.filter(pair => pair.publisher.indexOf(criteria) > -1);
             }
             storeReducer({
                 type: GlobalStoreActionType.SEARCH_PAIRS,
@@ -404,7 +404,23 @@ function GlobalStoreContextProvider(props) {
             let pairs = response.data.top5Lists;
             pairs = pairs.filter(pair => pair.isPublished && !pair.isCommunity);
             if (criteria !== "") {
-                pairs = pairs.filter(pair => pair.name === criteria);
+                pairs = pairs.filter(pair => pair.name.indexOf(criteria) > -1);
+            }
+            //console.log(filteredLists);
+            storeReducer({
+                type: GlobalStoreActionType.SEARCH_PAIRS,
+                payload: pairs
+            })
+        }
+    }
+
+    store.searchCommunityListsByname = async function (criteria) {
+        const response = await api.getTop5Lists();
+        if (response.status === 200) {
+            let pairs = response.data.top5Lists;
+            pairs = pairs.filter(pair => pair.isPublished && pair.isCommunity);
+            if (criteria !== "") {
+                pairs = pairs.filter(pair => pair.name.indexOf(criteria) > -1);
             }
             //console.log(filteredLists);
             storeReducer({
