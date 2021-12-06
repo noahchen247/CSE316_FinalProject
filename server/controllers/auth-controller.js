@@ -91,9 +91,9 @@ logoutUser = async (req, res) => {
 
 registerUser = async (req, res) => {
     try {
-        const { firstName, lastName, email, password, passwordVerify } = req.body;
-        console.log("create user: " + firstName + " " + lastName + " " + email + " " + password + " " + passwordVerify);
-        if (!firstName || !lastName || !email || !password || !passwordVerify) {
+        const { firstName, lastName, userName, email, password, passwordVerify } = req.body;
+        console.log("create user: " + firstName + " " + lastName + " " + userName + " " + email + " " + password + " " + passwordVerify);
+        if (!firstName || !lastName || !userName || !email || !password || !passwordVerify) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
@@ -126,7 +126,7 @@ registerUser = async (req, res) => {
                 })
         }
 
-        const existingName = await User.findOne({ firstName: firstName, lastName: lastName });
+        const existingName = await User.findOne({ userName: userName });
         console.log("existingName: " + existingName);
         if (existingName) {
             return res
@@ -143,7 +143,7 @@ registerUser = async (req, res) => {
         console.log("passwordHash: " + passwordHash);
 
         const newUser = new User({
-            firstName, lastName, email, passwordHash
+            firstName, lastName, userName, email, passwordHash
         });
         const savedUser = await newUser.save();
         console.log("new user saved: " + savedUser._id);
@@ -160,7 +160,8 @@ registerUser = async (req, res) => {
             success: true,
             user: {
                 firstName: savedUser.firstName,
-                lastName: savedUser.lastName,  
+                lastName: savedUser.lastName,
+                userName: savedUser.userName,  
                 email: savedUser.email              
             }
         })
