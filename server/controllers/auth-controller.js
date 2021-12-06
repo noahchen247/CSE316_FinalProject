@@ -33,21 +33,21 @@ getLoggedIn = async (req, res) => {
 loginUser = async (req, res) => {
     console.log("loginUser");
     try {
-        const { email, password } = req.body;
+        const { userName, password } = req.body;
 
-        if (!email || !password) {
+        if (!userName || !password) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
         }
 
-        const existingUser = await User.findOne({ email: email });
+        const existingUser = await User.findOne({ userName : userName });
         console.log("existingUser: " + existingUser);
         if (!existingUser) {
             return res
                 .status(401)
                 .json({
-                    errorMessage: "Wrong email or password provided."
+                    errorMessage: "Wrong user name or password provided."
                 })
         }
 
@@ -58,7 +58,7 @@ loginUser = async (req, res) => {
             return res
                 .status(401)
                 .json({
-                    errorMessage: "Wrong email or password provided."
+                    errorMessage: "Wrong user name or password provided."
                 })
         }
 
@@ -74,7 +74,8 @@ loginUser = async (req, res) => {
             success: true,
             user: {
                 firstName: existingUser.firstName,
-                lastName: existingUser.lastName,  
+                lastName: existingUser.lastName,
+                userName: existingUser.userName,  
                 email: existingUser.email              
             }
         })
