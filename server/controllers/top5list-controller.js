@@ -21,23 +21,18 @@ createTop5List = (req, res) => {
     console.log("top5List created for " + req.userId);
     User.findOne({ _id: req.userId }, (err, user) => {
         console.log("user found: " + JSON.stringify(user));
-        user.top5Lists.push(top5List._id);
-        user
+        top5List
             .save()
             .then(() => {
-                top5List
-                    .save()
-                    .then(() => {
-                        return res.status(201).json({
-                            top5List: top5List
-                        })
-                    })
-                    .catch(error => {
-                        return res.status(400).json({
-                            errorMessage: 'Top 5 List Not Created!'
-                        })
-                    })
-            });
+                return res.status(201).json({
+                    top5List: top5List
+                })
+            })
+            .catch(error => {
+                return res.status(400).json({
+                    errorMessage: "Top 5 List Not Created!"
+                })
+            })
     })
 }
 deleteTop5List = async (req, res) => {

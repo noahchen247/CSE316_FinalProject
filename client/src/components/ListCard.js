@@ -70,7 +70,7 @@ function ListCard(props) {
         event.stopPropagation();
         console.log(comment);
         let newComment = {
-            commenter: auth.user.firstName + " " + auth.user.lastName,
+            commenter: auth.user.userName,
             message: comment
         }
         store.addComment(idNamePair, newComment);

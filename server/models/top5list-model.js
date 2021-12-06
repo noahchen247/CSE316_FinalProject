@@ -14,7 +14,7 @@ const Top5ListSchema = new Schema(
         dislikes: { type: [String] },
         isCommunity: { type: Boolean },
         communityItems: { type: [Object] },
-        published: { type: String, required: true }
+        published: { type: String }
     },
     { timestamps: true },
 )

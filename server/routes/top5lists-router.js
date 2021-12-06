@@ -3,7 +3,7 @@ const router = express.Router()
 const auth = require('../auth')
 const Top5ListController = require('../controllers/top5list-controller')
 
-router.post('/top5list', auth.verify, Top5ListController.createTop5List)
+router.post('/top5list', Top5ListController.createTop5List)
 router.delete('/top5list/:id', Top5ListController.deleteTop5List)
 router.get('/top5list/:id', Top5ListController.getTop5ListById)
 router.get('/top5listpairs', Top5ListController.getTop5ListPairs)
