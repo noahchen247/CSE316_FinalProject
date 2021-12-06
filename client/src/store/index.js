@@ -218,6 +218,13 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
+    store.getCurrentDateAsString = function () {
+        var months = [ "January", "February", "March", "April", "May", "June", 
+           "July", "August", "September", "October", "November", "December" ];
+        const date = new Date();
+        return months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+    }
+
     // THESE ARE THE FUNCTIONS THAT WILL UPDATE OUR STORE AND
     // DRIVE THE STATE OF THE APPLICATION. WE'LL CALL THESE IN 
     // RESPONSE TO EVENTS INSIDE OUR COMPONENTS.
@@ -266,7 +273,7 @@ function GlobalStoreContextProvider(props) {
     store.createNewList = async function () {
         let newListName = "Untitled" + store.newListCounter;
         const response = await api.createTop5List(newListName, ["?", "?", "?", "?", "?"], auth.user.email, 
-            auth.user.userName, [], false, 0, [], [], false, []);
+            auth.user.userName, [], false, 0, [], [], false, [], "");
         console.log("createNewList response: " + response);
         if (response.status === 201) {
             tps.clearAllTransactions();
@@ -647,6 +654,7 @@ function GlobalStoreContextProvider(props) {
                 }
                 console.log(associated.communityItems);
                 console.log(associated._id);
+                associated.published = top5List.published;
                 response = await api.updateTop5ListById(associated._id, associated);
                 if (response === 200) {
                     console.log("SUCESSFULLY UPDATED");
@@ -661,7 +669,8 @@ function GlobalStoreContextProvider(props) {
                     }
                     communityItems.push(newItem);
                 }
-                response = await api.createTop5List(top5List.name, top5List.items, "", "", [], true, 0, [], [], true, communityItems);
+                response = await api.createTop5List(top5List.name, top5List.items, 
+                    "", "", [], true, 0, [], [], true, communityItems, top5List.published);
                 if (response.status === 201) {
                     console.log("Created new community list");
                     //console.log(response.data.top5List);
@@ -673,6 +682,7 @@ function GlobalStoreContextProvider(props) {
     store.publishCurrentList = async function () {
         let top5List = store.currentList;
         top5List.isPublished = true;
+        top5List.published = store.getCurrentDateAsString();
         console.log(top5List);
         const response = await api.updateTop5ListById(store.currentList._id, top5List);
         if (response.status === 200) {

@@ -29,17 +29,9 @@ function ListCard(props) {
     const [ expanded, setExpanded ] = useState(false);
     const [ comment, setComment ] = useState("");
 
-    var months = [ "January", "February", "March", "April", "May", "June", 
-           "July", "August", "September", "October", "November", "December" ];
-
     function handleLoadList() {
         console.log("handleLoadList for " + idNamePair._id);
         store.setCurrentList(idNamePair._id);
-    }
-
-    function formatDate(date) {
-        let split = date.substring(0, date.indexOf("T")).split("-");
-        return months[split[1]] + " " + split[2] + ", " + split[0];
     }
 
     async function handleDeleteList(event, id) {
@@ -235,11 +227,11 @@ function ListCard(props) {
         background = '#d4d4f5';
         if (idNamePair.isCommunity) {
             publishDate =
-                <Box sx={{ p: 1 }}>Updated: <span style={{ color: 'green' }}>{formatDate(idNamePair.createdAt)}</span></Box>
+                <Box sx={{ p: 1 }}>Updated: <span style={{ color: 'green' }}>{idNamePair.published}</span></Box>
         }
         else {
             publishDate =
-                <Box sx={{ p: 1 }}>Published: <span style={{ color: 'green' }}>{formatDate(idNamePair.createdAt)}</span></Box>
+                <Box sx={{ p: 1 }}>Published: <span style={{ color: 'green' }}>{idNamePair.published}</span></Box>
         }
         views = 
             <Box sx={{ p: 1 }} style={{ position: 'absolute', right: '10%', bottom: '2%' }}>
