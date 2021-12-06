@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 */
 function EditToolbar() {
     const { store } = useContext(GlobalStoreContext);
-    const [ publishState, setPublishState ] = useState(true);
+    let publishState = true;
 
     //let enabledButtonClass = "top5-button";
     function checkPublishState() {
@@ -25,12 +25,12 @@ function EditToolbar() {
         return true;
     }
     function handleSave() {
-        store.updateCurrentList();
-        setPublishState(!checkPublishState());
+        store.saveCurrentList();
     }
     function publish() {
         store.publishCurrentList();
     }
+    publishState = !checkPublishState();
     let editStatus = false;
     if (store.isListNameEditActive) {
         editStatus = true;
