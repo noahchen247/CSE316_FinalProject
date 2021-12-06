@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import Button from '@mui/material/Button';
 
@@ -39,16 +39,14 @@ function EditToolbar() {
         <div id="edit-toolbar">
             <Button 
                 disabled={editStatus}
-                id='close-button'
-                onClick={handleSave}
-                variant="contained">
+                id='save-button'
+                onClick={handleSave}>
                     Save
             </Button>
             <Button 
                 disabled={publishState}
-                id='close-button'
-                onClick={publish}
-                variant="contained">
+                id='publish-button'
+                onClick={publish}>
                     Publish
             </Button>
         </div>
