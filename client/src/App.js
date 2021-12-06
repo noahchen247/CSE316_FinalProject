@@ -7,8 +7,7 @@ import {
     AppBanner,
     HomeWrapper,
     LoginScreen,
-    RegisterScreen,
-    WorkspaceScreen
+    RegisterScreen
 } from './components'
 /*
     This is our application's top-level component.

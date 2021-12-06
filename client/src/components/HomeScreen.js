@@ -96,7 +96,7 @@ const HomeScreen = () => {
                         />
                     ))
                 }
-                </List>;
+                </List>
                 <MUIDeleteModal />
             </div>
         }

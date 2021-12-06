@@ -452,7 +452,50 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
+    store.handleCommunityDelete = async function (top5List) {
+        let response = await api.getTop5Lists();
+        if (response.status === 200) {
+            let lists = response.data.top5Lists;
+            lists = lists.filter(list => list.isCommunity);
+            let associated = lists.find(list => list.name === top5List.name);
+            let itemsToRemove = top5List.items;
+            for (let i = 0; i < 5; i++) {
+                let findItem = itemsToRemove[i];
+                let found = associated.communityItems.findIndex(object => object.item === findItem);
+                let base = associated.communityItems[found].points;
+                if (base - 5 + i === 0) {
+                    associated.communityItems.splice(found, 1);
+                }
+                else {
+                    let newItem = {
+                        item: findItem,
+                        points: base - 5 + i
+                    }
+                    associated.communityItems[found] = newItem;
+                }
+            }
+            console.log(associated.communityItems);
+            if (associated.communityItems.length === 0) {
+                console.log("DELETING" + associated._id);
+                response = await api.deleteTop5ListById(associated._id);
+                if (response === 200) {
+                    console.log("Deleted community list");
+                }
+            }
+            else {
+                console.log("UPDATING AFTER DELETE" + associated._id);
+                response = await api.updateTop5ListById(associated._id, associated);
+                if (response === 200) {
+                    console.log("Updated community list");
+                }
+            }
+        }
+    }
+
     store.deleteList = async function (listToDelete) {
+        if (listToDelete.isPublished) {
+            store.handleCommunityDelete(listToDelete);
+        }
         let response = await api.deleteTop5ListById(listToDelete._id);
         if (response.status === 200) {
             store.getHomeLists();
