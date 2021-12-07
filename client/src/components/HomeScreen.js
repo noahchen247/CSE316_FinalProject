@@ -47,18 +47,22 @@ const HomeScreen = () => {
     }
     function handleHomePairs() {
         setSearchState("Home");
+        clearSearch();
         store.getHomeLists();
     }
     function handleAllListsPairs() {
         setSearchState("All Lists");
+        clearSearch();
         store.getAllLists();
     }
     function handleUserPairs() {
         setSearchState("Users");
+        clearSearch();
         store.getUsersLists();
     }
     function handleCommunityPairs() {
         setSearchState("Community Lists")
+        clearSearch();
         store.getCommunityLists();
     }
     function search() {

@@ -414,7 +414,7 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    store.searchCommunityListsByname = async function (criteria) {
+    store.searchCommunityListsByName = async function (criteria) {
         const response = await api.getTop5Lists();
         if (response.status === 200) {
             let pairs = response.data.top5Lists;
