@@ -359,7 +359,7 @@ function GlobalStoreContextProvider(props) {
         if (response.status === 200) {
             let pairs = response.data.top5Lists;
             if (criteria !== "") {
-                pairs = pairs.filter(pair => pair.name.indexOf(criteria) > -1);
+                pairs = pairs.filter(pair => pair.name.toLowerCase().indexOf(criteria.toLowerCase()) > -1);
             }
             //console.log(filteredLists);
             storeReducer({
@@ -389,7 +389,7 @@ function GlobalStoreContextProvider(props) {
             let pairs = response.data.top5Lists;
             pairs = pairs.filter(pair => pair.isPublished && !pair.isCommunity);
             if (criteria !== "") {
-                pairs = pairs.filter(pair => pair.publisher.indexOf(criteria) > -1);
+                pairs = pairs.filter(pair => pair.publisher.toLowerCase().indexOf(criteria.toLowerCase()) > -1);
             }
             storeReducer({
                 type: GlobalStoreActionType.SEARCH_PAIRS,
@@ -404,7 +404,7 @@ function GlobalStoreContextProvider(props) {
             let pairs = response.data.top5Lists;
             pairs = pairs.filter(pair => pair.isPublished && !pair.isCommunity);
             if (criteria !== "") {
-                pairs = pairs.filter(pair => pair.name.indexOf(criteria) > -1);
+                pairs = pairs.filter(pair => pair.name.toLowerCase().indexOf(criteria.toLowerCase()) > -1);
             }
             //console.log(filteredLists);
             storeReducer({
@@ -420,7 +420,7 @@ function GlobalStoreContextProvider(props) {
             let pairs = response.data.top5Lists;
             pairs = pairs.filter(pair => pair.isPublished && pair.isCommunity);
             if (criteria !== "") {
-                pairs = pairs.filter(pair => pair.name.indexOf(criteria) > -1);
+                pairs = pairs.filter(pair => pair.name.toLowerCase().indexOf(criteria.toLowerCase()) > -1);
             }
             //console.log(filteredLists);
             storeReducer({
@@ -474,7 +474,7 @@ function GlobalStoreContextProvider(props) {
         if (response.status === 200) {
             let lists = response.data.top5Lists;
             lists = lists.filter(list => list.isCommunity);
-            let associated = lists.find(list => list.name === top5List.name);
+            let associated = lists.find(list => list.name.toLowerCase() === top5List.name.toLowerCase());
             let itemsToRemove = top5List.items;
             for (let i = 0; i < 5; i++) {
                 let findItem = itemsToRemove[i];
@@ -688,7 +688,7 @@ function GlobalStoreContextProvider(props) {
         if (response.status === 200) {
             let lists = response.data.top5Lists;
             lists = lists.filter(list => list.isCommunity);
-            let associated = lists.find(list => list.name === top5List.name);
+            let associated = lists.find(list => list.name.toLowerCase() === top5List.name.toLowerCase());
             //console.log(associated);
             if (associated !== undefined) {
                 console.log("Updating community list");
