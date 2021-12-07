@@ -675,7 +675,6 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    //uhhh IS THIS USED?????
     store.saveCurrentList = async function () {
         const response = await api.updateTop5ListById(store.currentList._id, store.currentList);
         if (response.status === 200) {
@@ -739,7 +738,23 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
+    store.preventIdentical = async function() {
+        let response = await api.getTop5ListsByEmail(auth.user.email);
+        if (response.status === 200) {
+            let lists = response.data.top5Lists;
+            lists = lists.filter(list => list.isPublished && list.name === store.currentList.name);
+            if (lists.length !== 0) {
+                return false;
+            }
+            return true;
+        }
+    }
+
     store.publishCurrentList = async function () {
+        let checkState = await store.preventIdentical();
+        if (!checkState) {
+            return;
+        }
         let top5List = store.currentList;
         top5List.isPublished = true;
         top5List.published = store.getCurrentDateAsString();

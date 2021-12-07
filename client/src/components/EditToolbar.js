@@ -28,7 +28,9 @@ function EditToolbar() {
         store.saveCurrentList();
     }
     function publish() {
-        store.publishCurrentList();
+        if (checkPublishState) {
+            store.publishCurrentList();
+        }
     }
     publishState = !checkPublishState();
     let editStatus = false;
