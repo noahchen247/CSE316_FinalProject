@@ -359,7 +359,7 @@ function GlobalStoreContextProvider(props) {
         if (response.status === 200) {
             let pairs = response.data.top5Lists;
             if (criteria !== "") {
-                pairs = pairs.filter(pair => pair.name.toLowerCase().indexOf(criteria.toLowerCase()) > -1);
+                pairs = pairs.filter(pair => pair.name.toLowerCase().indexOf(criteria.toLowerCase()) === 0);
             }
             //console.log(filteredLists);
             storeReducer({
@@ -389,7 +389,7 @@ function GlobalStoreContextProvider(props) {
             let pairs = response.data.top5Lists;
             pairs = pairs.filter(pair => pair.isPublished && !pair.isCommunity);
             if (criteria !== "") {
-                pairs = pairs.filter(pair => pair.publisher.toLowerCase().indexOf(criteria.toLowerCase()) > -1);
+                pairs = pairs.filter(pair => pair.publisher.toLowerCase().indexOf(criteria.toLowerCase()) === 0);
             }
             storeReducer({
                 type: GlobalStoreActionType.SEARCH_PAIRS,
@@ -404,7 +404,7 @@ function GlobalStoreContextProvider(props) {
             let pairs = response.data.top5Lists;
             pairs = pairs.filter(pair => pair.isPublished && !pair.isCommunity);
             if (criteria !== "") {
-                pairs = pairs.filter(pair => pair.name.toLowerCase().indexOf(criteria.toLowerCase()) > -1);
+                pairs = pairs.filter(pair => pair.name.toLowerCase().indexOf(criteria.toLowerCase()) === 0);
             }
             //console.log(filteredLists);
             storeReducer({
@@ -420,7 +420,7 @@ function GlobalStoreContextProvider(props) {
             let pairs = response.data.top5Lists;
             pairs = pairs.filter(pair => pair.isPublished && pair.isCommunity);
             if (criteria !== "") {
-                pairs = pairs.filter(pair => pair.name.toLowerCase().indexOf(criteria.toLowerCase()) > -1);
+                pairs = pairs.filter(pair => pair.name.toLowerCase().indexOf(criteria.toLowerCase()) === 0);
             }
             //console.log(filteredLists);
             storeReducer({
