@@ -1,0 +1,52 @@
+[{
+  "_id": {
+    "$oid": "61aeca17c66d4e8a0cdaa739"
+  },
+  "top5Lists": [],
+  "firstName": "Numero",
+  "lastName": "Uno",
+  "userName": "Test 1",
+  "email": "fake.address@sbu.com",
+  "passwordHash": "$2a$10$gceqB8xetgJvplnolRQOi.TLAigLDBKIGFRq/8LzSjfMejLalVOgW",
+  "createdAt": {
+    "$date": "2021-12-07T02:42:31.628Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-07T02:42:31.628Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61aed77f4a7a7b0b90381014"
+  },
+  "top5Lists": [],
+  "firstName": "Numero",
+  "lastName": "Dos",
+  "userName": "Test 2",
+  "email": "another.fake@sbu.com",
+  "passwordHash": "$2a$10$EBuVFXJQ2hBjfu8NQN5Cw.BKvK6hetLf/vUd.uNngzHZOJgrFK58y",
+  "createdAt": {
+    "$date": "2021-12-07T03:39:43.345Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-07T03:39:43.345Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61aedaa04a7a7b0b90381092"
+  },
+  "top5Lists": [],
+  "firstName": "Numero",
+  "lastName": "Tres",
+  "userName": "Test 3",
+  "email": "no.braincells@sbu.comq",
+  "passwordHash": "$2a$10$rHCsqnnebS88pHAT5YL6Qufscd7nKuQbma6KO/Ddxl6WkRpd0/Z2m",
+  "createdAt": {
+    "$date": "2021-12-07T03:53:04.735Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-07T03:53:04.735Z"
+  },
+  "__v": 0
+}]

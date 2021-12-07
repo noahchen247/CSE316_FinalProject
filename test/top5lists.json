@@ -1,0 +1,319 @@
+[{
+  "_id": {
+    "$oid": "61aeca23c66d4e8a0cdaa746"
+  },
+  "items": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+  ],
+  "comments": [],
+  "likes": [],
+  "dislikes": [],
+  "communityItems": [],
+  "name": "Untitled0",
+  "ownerEmail": "fake.address@sbu.com",
+  "publisher": "Test 1",
+  "isPublished": false,
+  "views": 0,
+  "isCommunity": false,
+  "published": "",
+  "createdAt": {
+    "$date": "2021-12-07T02:42:43.421Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-07T02:42:51.645Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "61aecb6a4a7a7b0b90380e7c"
+  },
+  "items": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+  ],
+  "comments": [],
+  "likes": [],
+  "dislikes": [],
+  "communityItems": [],
+  "name": "Untitled0",
+  "ownerEmail": "fake.address@sbu.com",
+  "publisher": "Test 1",
+  "isPublished": true,
+  "views": 0,
+  "isCommunity": false,
+  "published": "December 6, 2021",
+  "createdAt": {
+    "$date": "2021-12-07T02:48:10.077Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-07T03:12:15.264Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "61aed10f4a7a7b0b90380f55"
+  },
+  "items": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+  ],
+  "comments": [],
+  "likes": [],
+  "dislikes": [],
+  "communityItems": [
+    {
+      "item": "2",
+      "points": 9
+    },
+    {
+      "item": "1",
+      "points": 5
+    },
+    {
+      "item": "5",
+      "points": 5
+    },
+    {
+      "item": "yep",
+      "points": 5
+    },
+    {
+      "item": "desperation",
+      "points": 4
+    },
+    {
+      "item": "3",
+      "points": 3
+    },
+    {
+      "item": "what",
+      "points": 3
+    },
+    {
+      "item": "????",
+      "points": 3
+    },
+    {
+      "item": "4",
+      "points": 2
+    },
+    {
+      "item": "asfaedf",
+      "points": 2
+    },
+    {
+      "item": "urh",
+      "points": 2
+    },
+    {
+      "item": "why",
+      "points": 1
+    },
+    {
+      "item": "haha yes",
+      "points": 1
+    }
+  ],
+  "name": "Untitled0",
+  "ownerEmail": "",
+  "publisher": "",
+  "isPublished": true,
+  "views": 3,
+  "isCommunity": true,
+  "published": "December 6, 2021",
+  "createdAt": {
+    "$date": "2021-12-07T03:12:15.365Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-07T03:53:37.040Z"
+  },
+  "__v": 2
+},{
+  "_id": {
+    "$oid": "61aed7244a7a7b0b90380fea"
+  },
+  "items": [
+    "zoop",
+    "zap",
+    "zaddy",
+    "yep",
+    "desperation"
+  ],
+  "comments": [],
+  "likes": [],
+  "dislikes": [],
+  "communityItems": [],
+  "name": "Untitled1",
+  "ownerEmail": "fake.address@sbu.com",
+  "publisher": "Test 1",
+  "isPublished": true,
+  "views": 0,
+  "isCommunity": false,
+  "published": "December 6, 2021",
+  "createdAt": {
+    "$date": "2021-12-07T03:38:12.152Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-07T03:38:44.451Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "61aed7444a7a7b0b90381007"
+  },
+  "items": [
+    "zoop",
+    "zap",
+    "zaddy",
+    "yep",
+    "desperation"
+  ],
+  "comments": [],
+  "likes": [],
+  "dislikes": [],
+  "communityItems": [
+    {
+      "item": "yep",
+      "points": 7
+    },
+    {
+      "item": "zoop",
+      "points": 5
+    },
+    {
+      "item": "desperation",
+      "points": 5
+    },
+    {
+      "item": "zap",
+      "points": 4
+    },
+    {
+      "item": "zaddy",
+      "points": 3
+    },
+    {
+      "item": "unknown",
+      "points": 3
+    },
+    {
+      "item": "fill",
+      "points": 2
+    },
+    {
+      "item": "in",
+      "points": 1
+    }
+  ],
+  "name": "Untitled1",
+  "ownerEmail": "",
+  "publisher": "",
+  "isPublished": true,
+  "views": 3,
+  "isCommunity": true,
+  "published": "December 6, 2021",
+  "createdAt": {
+    "$date": "2021-12-07T03:38:44.566Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-07T03:43:45.744Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "61aed78c4a7a7b0b9038101b"
+  },
+  "items": [
+    "yep",
+    "desperation",
+    "what",
+    "asfaedf",
+    "why"
+  ],
+  "comments": [],
+  "likes": [],
+  "dislikes": [],
+  "communityItems": [],
+  "name": "Untitled0",
+  "ownerEmail": "another.fake@sbu.com",
+  "publisher": "Test 2",
+  "isPublished": true,
+  "views": 0,
+  "isCommunity": false,
+  "published": "December 5, 2021",
+  "createdAt": {
+    "$date": "2021-12-07T03:39:56.025Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-07T03:40:19.906Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "61aed85c4a7a7b0b90381052"
+  },
+  "items": [
+    "yep",
+    "desperation",
+    "unknown",
+    "fill",
+    "in"
+  ],
+  "comments": [],
+  "likes": [],
+  "dislikes": [],
+  "communityItems": [],
+  "name": "Untitled1",
+  "ownerEmail": "another.fake@sbu.com",
+  "publisher": "Test 2",
+  "isPublished": true,
+  "views": 0,
+  "isCommunity": false,
+  "published": "December 6, 2021",
+  "createdAt": {
+    "$date": "2021-12-07T03:43:24.923Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-07T03:43:43.026Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "61aedaa64a7a7b0b90381099"
+  },
+  "items": [
+    "2",
+    "5",
+    "????",
+    "urh",
+    "haha yes"
+  ],
+  "comments": [],
+  "likes": [],
+  "dislikes": [],
+  "communityItems": [],
+  "name": "Untitled0",
+  "ownerEmail": "no.braincells@sbu.comq",
+  "publisher": "Test 3",
+  "isPublished": true,
+  "views": 0,
+  "isCommunity": false,
+  "published": "December 6, 2021",
+  "createdAt": {
+    "$date": "2021-12-07T03:53:10.688Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-07T03:53:34.653Z"
+  },
+  "__v": 1
+}]
