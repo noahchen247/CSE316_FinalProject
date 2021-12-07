@@ -14,7 +14,7 @@ import SortIcon from '@mui/icons-material/SortOutlined';
 import List from '@mui/material/List';
 //import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField';
-//import Box from '@mui/material/Box';
+import AuthContext from '../auth';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -26,6 +26,7 @@ import MenuItem from '@mui/material/MenuItem';
 */
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const [searchState, setSearchState] = useState("Home");
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
@@ -122,7 +123,7 @@ const HomeScreen = () => {
     return (
         <div id="top5-list-selector" style={{backgroundColor: '#c4c4c4'}}>
             <div id="list-selector-heading">
-                <IconButton disabled={disableButton} onClick={handleHomePairs}>
+                <IconButton disabled={auth.isGuest || disableButton} onClick={handleHomePairs}>
                     <HomeIcon style={{ width: 60, height: 60, minWidth: '80px' }} />
                 </IconButton>
                 <IconButton disabled={disableButton} onClick={handleAllListsPairs}>
