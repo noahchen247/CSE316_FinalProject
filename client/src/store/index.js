@@ -433,10 +433,10 @@ function GlobalStoreContextProvider(props) {
     store.sortListsByCriteria = function (criteria) {
         let pairs = store.idNamePairs;
         if (criteria === "Publish Date (Newest)") {
-            pairs = pairs.sort((a, b) => a.published < b.published);
+            pairs = pairs.sort((a, b) => new Date(a.published) < new Date(b.published));
         }
         else if (criteria === "Publish Date (Oldest)") {
-            pairs = pairs.sort((a, b) => a.published > b.published);
+            pairs = pairs.sort((a, b) => new Date(a.published) > new Date(b.published));
         }
         else if (criteria === "Views") {
             pairs = pairs.sort((a, b) => a.views < b.views);
@@ -501,6 +501,7 @@ function GlobalStoreContextProvider(props) {
             }
             else {
                 console.log("UPDATING AFTER DELETE" + associated._id);
+                associated.communityItems = associated.communityItems.sort((a, b) => a.points < b.points);
                 response = await api.updateTop5ListById(associated._id, associated);
                 if (response === 200) {
                     console.log("Updated community list");
@@ -714,6 +715,7 @@ function GlobalStoreContextProvider(props) {
                 console.log(associated.communityItems);
                 console.log(associated._id);
                 associated.published = top5List.published;
+                associated.communityItems = associated.communityItems.sort((a, b) => a.points < b.points);
                 response = await api.updateTop5ListById(associated._id, associated);
                 if (response === 200) {
                     console.log("SUCESSFULLY UPDATED");
