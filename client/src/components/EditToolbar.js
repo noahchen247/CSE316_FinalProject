@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import Button from '@mui/material/Button';
+import ErrorModal from "../components/ErrorModal";
 
 /*
     This toolbar is a functional React component that
@@ -39,6 +40,7 @@ function EditToolbar() {
     }
     return (
         <div id="edit-toolbar">
+            <ErrorModal/>
             <Button 
                 disabled={editStatus}
                 id='save-button'

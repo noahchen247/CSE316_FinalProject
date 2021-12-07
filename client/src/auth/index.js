@@ -11,14 +11,16 @@ export const AuthActionType = {
     LOGIN_USER: "LOGIN_USER",
     LOGOUT_USER: "LOGOUT_USER",
     REGISTER_USER: "REGISTER_USER",
-    LOGIN_GUEST: "LOGIN_GUEST"
+    LOGIN_GUEST: "LOGIN_GUEST",
+    ALERT_ERROR: "ALERT_ERROR"
 }
 
 function AuthContextProvider(props) {
     const [auth, setAuth] = useState({
         user: null,
         loggedIn: false,
-        isGuest: false
+        isGuest: false,
+        error: null
     });
     const history = useHistory();
 
@@ -33,35 +35,48 @@ function AuthContextProvider(props) {
                 return setAuth({
                     user: payload.user,
                     loggedIn: payload.loggedIn,
-                    isGuest: auth.isGuest
+                    isGuest: auth.isGuest,
+                    error: null
                 });
             }
             case AuthActionType.LOGIN_USER: {
                 return setAuth({
                     user: payload.user,
                     loggedIn: true,
-                    isGuest: false
+                    isGuest: false,
+                    error: null
                 })
             }
             case AuthActionType.LOGOUT_USER: {
                 return setAuth({
                     user: null,
                     loggedIn: false,
-                    isGuest: false
+                    isGuest: false,
+                    error: null
                 })
             }
             case AuthActionType.REGISTER_USER: {
                 return setAuth({
                     user: payload.user,
                     loggedIn: false,
-                    isGuest: false
+                    isGuest: false,
+                    error: null
                 })
             }
             case AuthActionType.LOGIN_GUEST: {
                 return setAuth({
                     user: null,
                     loggedIn: true,
-                    isGuest: true
+                    isGuest: true,
+                    error: null
+                })
+            }
+            case AuthActionType.ALERT_ERROR: {
+                return setAuth({
+                    user: auth.user,
+                    loggedIn: auth.loggedIn,
+                    isGuest: false,
+                    error: payload.error
                 })
             }
             default:
@@ -102,9 +117,12 @@ function AuthContextProvider(props) {
                 history.push("/login");
             }
         } catch (err) {
-            if (err.response) {
-                console.log(err.response.data.errorMessage);
-            }
+            authReducer({
+                type: AuthActionType.ALERT_ERROR,
+                payload: {
+                    error: err.response.data.errorMessage
+                }
+            })
         }
     }
 
@@ -121,10 +139,31 @@ function AuthContextProvider(props) {
                 history.push("/");
             }
         } catch (err) {
-            if (err.response) {
-                console.log(err.response.data.errorMessage);
-            }
+            authReducer({
+                type: AuthActionType.ALERT_ERROR,
+                payload: {
+                    error: err.response.data.errorMessage
+                }
+            })
         }
+    }
+
+    auth.publishError = async function() {
+        authReducer({
+            type: AuthActionType.ALERT_ERROR,
+            payload: {
+                error: "One of your published lists already has this name"
+            }
+        })
+    }
+
+    auth.hideCloseModal = async function() {
+        authReducer({
+            type: AuthActionType.ALERT_ERROR,
+            payload: {
+                error: null
+            }
+        })
     }
 
     auth.logoutUser = async function() {

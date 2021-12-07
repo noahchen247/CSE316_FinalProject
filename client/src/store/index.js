@@ -744,6 +744,7 @@ function GlobalStoreContextProvider(props) {
             let lists = response.data.top5Lists;
             lists = lists.filter(list => list.isPublished && list.name === store.currentList.name);
             if (lists.length !== 0) {
+                auth.publishError();
                 return false;
             }
             return true;

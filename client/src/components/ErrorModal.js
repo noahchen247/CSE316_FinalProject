@@ -36,8 +36,8 @@ function ErrorModal() {
             aria-describedby="modal-button">
             <Box sx={style}>
                 <Typography variant='h5'>Error: {message}</Typography>
-                <div id='confirm-cancel-container'>
-                    <Button style={buttonStyle} onClick={handleCloseModal}>Ok</Button>
+                <div id='confirm-cancel-container' className="modal-button">
+                    <Button onClick={handleCloseModal}>Ok</Button>
                 </div>
             </Box>
         </Modal>
