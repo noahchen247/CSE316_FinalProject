@@ -150,6 +150,7 @@ registerUser = async (req, res) => {
         const savedUser = await newUser.save();
         console.log("new user saved: " + savedUser._id);
 
+        /*
         // LOGIN THE USER
         const token = auth.signToken(savedUser._id);
         console.log("token:" + token);
@@ -169,6 +170,11 @@ registerUser = async (req, res) => {
         })
 
         console.log("token sent");
+        */
+
+        return res.status(200).json({
+            success: true
+        })
 
     } catch (err) {
         console.error(err);
